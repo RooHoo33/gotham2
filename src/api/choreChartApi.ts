@@ -1,45 +1,45 @@
 
-export interface chore{
+export type chore = {
     id: number
     name: string
     rank: number
 }
 
-export interface day {
+export type day = {
     id: number
     name: string
     rank: number
 }
 
-export interface user {
+export type user = {
     kappaSigma: number
     email: string
 
 }
 
-export interface templateDay {
+export type templateDay = {
     id: number
     day: day
 }
-export interface templateChore {
+export type templateChore = {
     id: number
     chore: chore
 }
 
-export interface template {
+export type template = {
     name: string
     id: number
     templateDays: templateDay[]
     templateChores: templateChore[]
 }
-export interface choreChartUnit {
+export type choreChartUnit = {
     id: number
     templateChore: templateChore
     templateDay: templateDay
     user: user
 }
 
-export interface choreChart {
+export type choreChart = {
     id:number
     week:string
     template: template

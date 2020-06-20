@@ -1,70 +1,51 @@
 // import useState next to FunctionComponent
-import React, { FunctionComponent, useEffect, useState } from "react";
-import { getChoreCharts, templateDay, choreChart } from "../api/choreChartApi";
+import React, { FunctionComponent} from "react";
+ import {templateDay, templateChore, choreChartUnit} from "../api/choreChartApi";
 
-const Counter: FunctionComponent<any> = () => {
-  const [choreChart, setChoreChart] = useState<choreChart | undefined>(
-    undefined
-  );
+const ChoreChartDisplay: FunctionComponent<any> = ({choreChart}) => {
 
-  // since we pass a number here, clicks is going to be a number.
-  // setClicks is a function that accepts either a number or a function returning
-  // a number
-  useEffect(() => {
-    getChoreCharts().then((data) => {
-      console.log(data);
-      data.forEach((dataSingle) => {
-        dataSingle.template.templateChores.sort(
-          (a, b) => a.chore.rank - b.chore.rank
-        );
-        dataSingle.template.templateDays.sort(
-          (a, b) => a.day.rank - b.day.rank
-        );
-      });
-      setChoreChart(data[0]);
-    });
-  }, []);
 
-  const [clicks, setClicks] = useState(50);
   if (!choreChart) {
     return <div />;
   }
   return (
-    <div className={"card mt-4"}>
-      <div className={"card-body"}>
-        <h5 className="card-title">Chore Chart</h5>
-        <div className={"card-text"}>
-          <div className={"row align-items-end"}>
-            <div className={"col"}>
-              <h5>chores</h5>
-            </div>
-            {choreChart?.template.templateDays.map(
-              (templateDay: templateDay) => {
-                return (
-                  <div className={"col"}>
-                    <h3>{templateDay.day.name}</h3>
-                  </div>
-                );
-              }
-            )}
-          </div>
-          {choreChart.template.templateChores.map((templateChore) => {
-            let filteredChoreUnits = choreChart?.choreChartUnits.filter(choreChartUnit =>{
+    <div className={"jumbotron mt-4"}>
+      <div>
+        <h1 className="display-8 mb-3">
+          Chore Chart{" "}
+          <h5 className={"float-right align-right"}>{choreChart.week}</h5>
+        </h1>
 
-              return choreChartUnit.templateChore.id === templateChore.id
-            })
-            console.log(filteredChoreUnits)
-            filteredChoreUnits?.sort(((a, b) => a.templateDay.day.rank - b.templateDay.day.rank))
-            return <div className={"row"}>
-              <div className={"col"}>{templateChore.chore.name}</div>
-              {filteredChoreUnits?.map(choreUnit =>{
-                return <div className={"col"}>{choreUnit.user.kappaSigma}</div>
+        <table className="table table-bordered table-hover">
+          <thead>
+            <tr>
+              <th scope="col">chore</th>
+              {choreChart.template.templateDays.map((templateDay:templateDay) => {
+                return <th scope="col">{templateDay.day.name}</th>;
               })}
-            </div>;
-          })}
-        </div>
+            </tr>
+          </thead>
+          <tbody>
+            {choreChart.template.templateChores.map((templateChore: templateChore) => {
+              let filteredChoreUnits = choreChart?.choreChartUnits.filter(
+                (choreChartUnit: choreChartUnit) => {
+                  return choreChartUnit.templateChore.id === templateChore.id;
+                }
+              );
+
+              return (
+                <tr>
+                  <th scope="row">{templateChore.chore.name}</th>
+                  {filteredChoreUnits?.map((choreChartUnit: choreChartUnit) => {
+                    return <td>{choreChartUnit.user.kappaSigma}</td>;
+                  })}
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
       </div>
     </div>
   );
 };
-export default Counter;
+export default ChoreChartDisplay;
