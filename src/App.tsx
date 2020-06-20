@@ -5,7 +5,7 @@ import Counter from "./Components/ChoreChartDisplay";
 
 function App() {
   return (
-    <div className="App">
+    <div className="App container-lg">
       <Counter />
       {/*<header className="App-header">*/}
       {/*  <img src={logo} className="App-logo" alt="logo" />*/}
