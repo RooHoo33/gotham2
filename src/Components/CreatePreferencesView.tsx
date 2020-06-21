@@ -8,6 +8,7 @@ import {
   userChoreChartPreference, postUserPreferences,
 } from "../api/choreChartApi";
 import UserChorePrefrenceEdit from "./UserChorePreferenceEdit";
+import StatusBarTicker from "./StatusBarTicker";
 
 type createPreferencesViewErrors = {
   numberOfUserChorePreferencesError: Boolean;
@@ -24,6 +25,8 @@ const CreatePreferencesView = () => {
     repeatRankError: false,
   });
 
+  let [submitting, setSubmitting] = useState<boolean>(false)
+
   useEffect(() => {
     getTemplates().then((data) => {
       data[0].templateChores.sort((a, b) => a.chore.rank - b.chore.rank);
@@ -37,6 +40,7 @@ const CreatePreferencesView = () => {
 
   const saveUserPreferences = () =>{
     if (userChorePreferences){
+      setSubmitting(true)
       postUserPreferences(userChorePreferences).then(data => setUserChorePreferences(data))
 
     }
@@ -170,7 +174,9 @@ const CreatePreferencesView = () => {
             })}
           </tbody>
         </table>
-        <button type="button" className="btn btn-primary" onClick={saveUserPreferences}>Save changes</button>
+        <button disabled={submitting} type="button" className="btn btn-primary" onClick={saveUserPreferences}>Save changes</button>
+        <StatusBarTicker submitting={submitting} setSubmitting={(value) => {setSubmitting(value)}} />
+
       </div>
     </div>
   );
