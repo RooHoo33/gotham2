@@ -8,7 +8,7 @@ const StatusBarTicker:FC<{submitting: boolean, setSubmitting: (isSubmitting: boo
     return new Promise((resolve) => setTimeout(resolve, ms));
   }
   useEffect(() =>{
-    updateThing()
+    updateThing().then(r => null)
   }, )
 
   const updateThing = async () => {
