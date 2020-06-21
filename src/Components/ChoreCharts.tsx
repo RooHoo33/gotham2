@@ -2,13 +2,13 @@ import { useEffect, useState } from "react";
 import ChoreChartDisplay from "./ChoreChartDisplay";
 import { getChoreCharts, choreChart } from "../api/choreChartApi";
 import React from "react";
+import CreatePreferencesView from "./CreatePreferencesView";
 
 const ChoreCharts = () => {
   const [choreCharts, setChoreCharts] = useState<choreChart[] | undefined>([]);
 
   useEffect(() => {
     getChoreCharts().then((data) => {
-      console.log(data);
       data.forEach((dataSingle) => {
         dataSingle.template.templateChores.sort(
           (a, b) => a.chore.rank - b.chore.rank
@@ -25,6 +25,7 @@ const ChoreCharts = () => {
       {choreCharts?.map((choreChart) => {
         return <ChoreChartDisplay choreChart={choreChart} />;
       })}
+      <CreatePreferencesView />
     </div>
   );
 };
