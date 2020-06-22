@@ -91,3 +91,12 @@ export const postUserPreferences = async (saveUserPreferences: userChoreChartPre
         return data.data;
       });
 }
+
+export const viewPreviewChoreChart = async (userChorePreferences: userChoreChartPreference[]): Promise<choreChart> => {
+  const axios = require("axios").default;
+  return await axios
+      .post("http://localhost:8080/api/preview-chore-chart", userChorePreferences)
+      .then((data: any) => {
+        return data.data;
+      });
+};

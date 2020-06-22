@@ -1,18 +1,18 @@
 // import useState next to FunctionComponent
 import React, { FunctionComponent} from "react";
- import {templateDay, templateChore, choreChartUnit} from "../api/choreChartApi";
+ import {templateDay, templateChore, choreChartUnit, choreChart} from "../api/choreChartApi";
 
-const ChoreChartDisplay: FunctionComponent<any> = ({choreChart}) => {
+const ChoreChartDisplay: FunctionComponent<{ choreChart: choreChart, title:string }> = ({choreChart, title}) => {
 
 
   if (!choreChart) {
     return <div />;
   }
   return (
-    <div className={"jumbotron mt-4"}>
+    <div>
       <div>
         <h1 className="display-8 mb-3">
-          Chore Chart{" "}
+          {title + " "}
           <h5 className={"float-right align-right"}>{choreChart.week}</h5>
         </h1>
 

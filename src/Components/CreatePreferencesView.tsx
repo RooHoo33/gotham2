@@ -1,14 +1,18 @@
 import React, { useEffect, useState } from "react";
 import {
-  getTemplates,
-  getUserPreferences,
-  template,
-  templateDay,
-  templateChore,
-  userChoreChartPreference, postUserPreferences,
+    getTemplates,
+    getUserPreferences,
+    template,
+    templateDay,
+    templateChore,
+    userChoreChartPreference,
+    postUserPreferences, choreChart, viewPreviewChoreChart,
 } from "../api/choreChartApi";
 import UserChorePrefrenceEdit from "./UserChorePreferenceEdit";
 import StatusBarTicker from "./StatusBarTicker";
+import ChoreChartDisplay from "./ChoreChartDisplay";
+import ReactTooltip from "react-tooltip";
+
 
 type createPreferencesViewErrors = {
   numberOfUserChorePreferencesError: Boolean;
@@ -25,7 +29,9 @@ const CreatePreferencesView = () => {
     repeatRankError: false,
   });
 
-  let [submitting, setSubmitting] = useState<boolean>(false)
+  const [choreChartPreview, setChoreChartPreview] = useState<choreChart | undefined>(undefined)
+
+  let [submitting, setSubmitting] = useState<boolean>(false);
 
   useEffect(() => {
     getTemplates().then((data) => {
@@ -38,13 +44,14 @@ const CreatePreferencesView = () => {
     });
   }, []);
 
-  const saveUserPreferences = () =>{
-    if (userChorePreferences){
-      setSubmitting(true)
-      postUserPreferences(userChorePreferences).then(data => setUserChorePreferences(data))
-
+  const saveUserPreferences = () => {
+    if (userChorePreferences) {
+      setSubmitting(true);
+      postUserPreferences(userChorePreferences).then((data) =>
+        setUserChorePreferences(data)
+      );
     }
-  }
+  };
 
   if (template && userChorePreferences) {
     let numberOfChores = template.templateChores.length;
@@ -77,6 +84,15 @@ const CreatePreferencesView = () => {
     }
   }
 
+  const viewChoreChartPreview = () =>{
+      if (userChorePreferences){
+          viewPreviewChoreChart(userChorePreferences).then(data =>{
+              setChoreChartPreview(data)
+          })
+      }
+
+  }
+
   const onUserChorePreferenceSubmit = (
     newRank: number,
     currentValue: userChoreChartPreference
@@ -97,9 +113,14 @@ const CreatePreferencesView = () => {
         currentValue.rank = newRank;
         setUserChorePreferences(userChorePreferences.concat([currentValue]));
         setErrors({ ...errors, repeatRankError: false });
+
       }
     }
   };
+
+  useEffect(() =>{
+          viewChoreChartPreview()
+  },[userChorePreferences])
 
   if (
     !userChorePreferences ||
@@ -109,7 +130,8 @@ const CreatePreferencesView = () => {
     return <div />;
   }
   return (
-    <div className={"jumbotron mt-4"}>
+    <div className={"jumbotron border-5 border-primary mt-4"}>
+      <div className={"border-primary"} />
       <div>
         {errors.repeatRankError && (
           <div className="alert alert-dismissible alert-danger">
@@ -120,7 +142,7 @@ const CreatePreferencesView = () => {
           </div>
         )}
 
-        <h1 className="display-8 mb-3">Chore Chart</h1>
+        <h1 className="display-8 mb-3">Edit your preferences</h1>
         <div className="text-info mb-3">
           Rank your chores in order of you wanting to do them. Rank 1 will be
           your most wanted chore. For chores that you do not want to do, select
@@ -174,9 +196,45 @@ const CreatePreferencesView = () => {
             })}
           </tbody>
         </table>
-        <button disabled={submitting} type="button" className="btn btn-primary" onClick={saveUserPreferences}>Save changes</button>
-        <StatusBarTicker submitting={submitting} setSubmitting={(value) => {setSubmitting(value)}} />
+          <StatusBarTicker
+              submitting={submitting}
+              setSubmitting={(value) => {
+                  setSubmitting(value);
+              }}
+          />
+          <div className={"row mt-3 mb-5"}>
 
+              <div className={"col"}>
+
+                  <button
+                      disabled={submitting}
+                      type="button"
+                      className="btn btn-primary"
+                      onClick={saveUserPreferences}
+                  >
+                      Save changes
+                  </button>
+              </div>
+
+              <div className={"col align-right"}>
+                  <button
+                      disabled={submitting}
+                      type="button"
+                      className="btn btn-primary float-right"
+                      onClick={viewChoreChartPreview}
+                      data-tip data-for="registerTip"
+                  >
+                      view preview
+                  </button>
+                  <ReactTooltip id="registerTip" html={true} multiline={true} place="right" effect="solid">
+                      {"Generate next weeks chore chart with<br>everyones preferenses as of now"}
+                  </ReactTooltip>
+              </div>
+          </div>
+
+
+
+          {choreChartPreview && <ChoreChartDisplay choreChart={choreChartPreview} title={"Preview Chart"} />}
       </div>
     </div>
   );

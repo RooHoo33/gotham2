@@ -21,9 +21,9 @@ const ChoreCharts = () => {
     });
   }, []);
   return (
-    <div>
+    <div >
       {choreCharts?.map((choreChart) => {
-        return <ChoreChartDisplay choreChart={choreChart} />;
+        return <div className={"jumbotron border-5 border-success mt-4"}><ChoreChartDisplay choreChart={choreChart} title={"Chore Chart"} /></div>;
       })}
       <CreatePreferencesView />
     </div>
