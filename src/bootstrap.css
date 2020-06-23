@@ -7230,6 +7230,9 @@ button.bg-dark:focus {
 .border {
   border: 2px solid #dee2e6 !important;
 }
+.login-form {
+  max-width: 330px
+}
 
 .border-5 {
   border: 5px solid #dee2e6 !important;
