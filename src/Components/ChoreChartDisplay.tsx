@@ -3,8 +3,28 @@ import React, { FunctionComponent} from "react";
  import {templateDay, templateChore, choreChartUnit, choreChart} from "../api/choreChartApi";
 
 const ChoreChartDisplay: FunctionComponent<{ choreChart: choreChart, title:string }> = ({choreChart, title}) => {
+  const getDate = (weekString: string) => {
 
 
+    const [year, week] = weekString.split("-W")
+    if (!year || !week){
+      return weekString
+    }
+
+    let d = (1 + (parseInt(week) - 1) * 7);
+
+    const isSunday =(date: Date): Date =>{
+      const dayNumber = date.getDay()
+      date.setDate(date.getDate() - dayNumber)
+      return date
+    }
+    let datehere = isSunday(new Date(parseInt(year), 0, d))
+
+
+
+    return "Week of " + (datehere.toLocaleDateString("en-US", { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }))
+
+  }
   if (!choreChart) {
     return <div />;
   }
@@ -13,7 +33,7 @@ const ChoreChartDisplay: FunctionComponent<{ choreChart: choreChart, title:strin
       <div>
         <h1 className="display-8 mb-3">
           {title + " "}
-          <h5 className={"float-right align-right"}>{choreChart.week}</h5>
+          <h5 className={"float-right align-right"}>{getDate(choreChart.week).toString()}</h5>
         </h1>
 
         <table className="table table-bordered table-hover">
