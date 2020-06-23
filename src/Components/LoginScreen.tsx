@@ -10,9 +10,7 @@ const LoginScreen: FC<{setAuth: (data:loginData) => void}> = ({setAuth}) => {
   const [loginError, setLoginError] = useState(false)
 
   const onsubmit = () => {
-      console.log(loginFormInfo)
       loginUser(loginFormInfo).then(data =>{
-          console.log(data)
           if (!data.success){
               setLoginError(true)
           } else {

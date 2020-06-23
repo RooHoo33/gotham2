@@ -6,33 +6,29 @@ import { loginData } from "./api/userApi";
 import axios from "axios";
 // @ts-ignore
 import * as jwt_decode from "jwt-decode";
-
-const getJWT = () => {
-  return document.cookie.replace(
-    /(?:(?:^|.*;\s*)jwttoken\s*\=\s*([^;]*).*$)|^.*$/,
-    "$1"
-  );
-};
+import {
+  getJWT,
+  jwtValidateIn30Minutes,
+  jwtValide,
+  refreshJWTToken,
+} from "./api/securityAPI";
+import {Header} from "./Components/Header";
 
 type authType = {
   jwt: string;
   authenticated: boolean;
 };
-const jwtValide = () => {
-  if (getJWT()) {
-    let jwt = getJWT();
 
-    let decoded = jwt_decode(jwt);
-    return decoded.exp > Date.now() / 1000;
-  } else {
-    return false;
-  }
-};
 axios.interceptors.request.use(
   (config) => {
     if (jwtValide()) {
+      if (!jwtValidateIn30Minutes()) {
+        refreshJWTToken();
+      }
+
       config.headers["Authorization"] = "Bearer " + getJWT();
     }
+
     config.headers["Content-Type"] = "application/json";
     return config;
   },
@@ -40,6 +36,7 @@ axios.interceptors.request.use(
     Promise.reject(error);
   }
 );
+
 const App = () => {
   const [auth, setAuth] = useState<authType>({ jwt: "", authenticated: false });
 
@@ -60,9 +57,13 @@ const App = () => {
   }
 
   return (
-    <div className={"container"}>
-      <ChoreCharts />
-    </div>
+      <div>
+        <Header setAuth={setAuthOnLogin} />
+        <div className={"container"}>
+          <ChoreCharts />
+        </div>
+      </div>
+
   );
 };
 
