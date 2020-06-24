@@ -1,7 +1,19 @@
+import {Simulate} from "react-dom/test-utils";
 
 export type loginFormType = {
     username: string,
     password: string
+}
+
+export type createUserType = {
+    password: string
+    firstName: string
+    lastName: string
+    active: boolean
+    email: string
+    kappaSigma: number
+    bigB: number
+    isAssociateMemeber: boolean
 }
 
 export type loginData = {
@@ -9,12 +21,14 @@ export type loginData = {
     success: boolean
 }
 
-export const createUser = async (loginInfo: loginFormType) =>{
+export const createUser = async (createUser: createUserType): Promise<boolean> =>{
     const axios = require("axios").default;
     return await axios
-        .post("http://localhost:8080/create-user", loginInfo)
+        .post("http://localhost:8080/create-user", createUser)
         .then((data: any) => {
-            return data.data;
+            return true;
+        }).catch(() =>{
+            return false
         });
 }
 
