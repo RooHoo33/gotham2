@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {
-  getTemplates,
   getUserPreferences,
+  getTemplates,
   template,
   templateDay,
   templateChore,
@@ -22,8 +22,8 @@ type createPreferencesViewErrors = {
 
 const CreatePreferencesView = () => {
   let [userChorePreferences, setUserChorePreferences] = useState<
-    userChoreChartPreference[] | undefined
-  >(undefined);
+    userChoreChartPreference[]
+  >([]);
   let [template, setTemplate] = useState<template | undefined>(undefined);
   let [errors, setErrors] = useState<createPreferencesViewErrors>({
     numberOfUserChorePreferencesError: false,
@@ -80,11 +80,13 @@ const CreatePreferencesView = () => {
               week: "default",
             };
             localUserChorePreferences.push(localUserChorePreference);
+            console.log(localUserChorePreferences)
           });
         }
       });
 
-      setUserChorePreferences({ ...localUserChorePreferences });
+
+      setUserChorePreferences( localUserChorePreferences );
       setErrors({ ...errors, numberOfUserChorePreferencesError: false });
     }
   }
@@ -125,14 +127,14 @@ const CreatePreferencesView = () => {
 
   if (
     !userChorePreferences ||
-    userChorePreferences?.length === 0 ||
+    userChorePreferences.length === 0 ||
     !template
   ) {
     return <div />;
   }
   return (
     <div className={"jumbotron border-5 border-primary mt-4"}>
-      <div className={"border-primary"} />
+      {/*<div className={"border-primary"} />*/}
       <div>
         {errors.repeatRankError && (
           <div className="alert alert-dismissible alert-danger">
@@ -161,6 +163,10 @@ const CreatePreferencesView = () => {
           <tbody>
             {template.templateChores.map((templateChore: templateChore) => {
               // @ts-ignore
+              console.log(userChorePreferences)
+              if (!userChorePreferences) {
+                return <div/>
+              }
               let filteredUserPreferences: userChoreChartPreference[] = userChorePreferences.filter(
                 (userChoreChartPreference: userChoreChartPreference) => {
                   return (

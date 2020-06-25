@@ -7,15 +7,15 @@ import axios from "axios";
 // @ts-ignore
 import * as jwt_decode from "jwt-decode";
 import {
-  getJWT,
-  jwtValidateIn30Minutes,
-  jwtValide,
-  refreshJWTToken,
+    getJWT, jwtType,
+    jwtValidateIn30Minutes,
+    jwtValide,
+    refreshJWTToken,
 } from "./api/securityAPI";
 import {Header} from "./Components/Header";
 
 type authType = {
-  jwt: string;
+  jwt: jwtType;
   authenticated: boolean;
 };
 
@@ -26,7 +26,7 @@ axios.interceptors.request.use(
         refreshJWTToken();
       }
 
-      config.headers["Authorization"] = "Bearer " + getJWT();
+      config.headers["Authorization"] = "Bearer " + getJWT().jwt;
     }
 
     config.headers["Content-Type"] = "application/json";
@@ -38,17 +38,17 @@ axios.interceptors.request.use(
 );
 
 const App = () => {
-  const [auth, setAuth] = useState<authType>({ jwt: "", authenticated: false });
+  const [auth, setAuth] = useState<authType>({ jwt: {jwt: "", email: "", exp: 0, iat: 0, id: 0, matComChairmen: false}, authenticated: false });
 
   const setAuthOnLogin = (authInfo: loginData) => {
     document.cookie = "jwttoken=" + authInfo.jwt;
-    setAuth({ authenticated: authInfo.success, jwt: authInfo.jwt });
+    let jwt = getJWT()
+    setAuth({ authenticated: authInfo.success, jwt: jwt });
   };
   useEffect(() => {
-    if (getJWT()) {
-      let jwt = getJWT();
-      let decoded = jwt_decode(jwt);
-      setAuth({ jwt, authenticated: decoded.exp > Date.now() / 1000 });
+      let jwt = getJWT()
+    if (jwt.jwt !== "") {
+      setAuth({ jwt, authenticated: jwt.exp > Date.now() / 1000 });
     }
   }, []);
 
