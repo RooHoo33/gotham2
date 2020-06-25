@@ -3,6 +3,7 @@ import ChoreChartDisplay from "./ChoreChartDisplay";
 import { getChoreCharts, choreChart } from "../api/choreChartApi";
 import React from "react";
 import CreatePreferencesView from "./CreatePreferencesView";
+import AdminView from "./admin/AdminView";
 
 const ChoreCharts = () => {
   const [choreCharts, setChoreCharts] = useState<choreChart[] | undefined>([]);
@@ -25,6 +26,7 @@ const ChoreCharts = () => {
       {choreCharts?.map((choreChart) => {
         return <div className={"jumbotron border-5 border-success mt-4"}><ChoreChartDisplay choreChart={choreChart} title={"Chore Chart"} /></div>;
       })}
+      <AdminView />
       <CreatePreferencesView />
     </div>
   );

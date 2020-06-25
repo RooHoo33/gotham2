@@ -80,7 +80,6 @@ const CreatePreferencesView = () => {
               week: "default",
             };
             localUserChorePreferences.push(localUserChorePreference);
-            console.log(localUserChorePreferences)
           });
         }
       });
@@ -163,7 +162,6 @@ const CreatePreferencesView = () => {
           <tbody>
             {template.templateChores.map((templateChore: templateChore) => {
               // @ts-ignore
-              console.log(userChorePreferences)
               if (!userChorePreferences) {
                 return <div/>
               }

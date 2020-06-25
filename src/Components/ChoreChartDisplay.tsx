@@ -33,7 +33,7 @@ const ChoreChartDisplay: FunctionComponent<{ choreChart: choreChart, title:strin
       <div>
         <h1 className="display-8 mb-3">
           {title + " "}
-          <h5 className={"float-right align-right"}>{getDate(choreChart.week).toString()}</h5>
+          <p style={{fontSize: "23px"}} className={"float-right align-right"}>{getDate(choreChart.week).toString()}</p>
         </h1>
 
         <table className="table table-bordered table-hover">
@@ -57,7 +57,7 @@ const ChoreChartDisplay: FunctionComponent<{ choreChart: choreChart, title:strin
                 <tr>
                   <th scope="row">{templateChore.chore.name}</th>
                   {filteredChoreUnits?.map((choreChartUnit: choreChartUnit) => {
-                    return <td>{choreChartUnit.user.kappaSigma}</td>;
+                    return <td>{choreChartUnit.user.kappaSigma? choreChartUnit.user.kappaSigma : "No one" }</td>;
                   })}
                 </tr>
               );

@@ -42,6 +42,9 @@ export const jwtValide = () => {
 };
 
 export const refreshJWTToken = () => {
+    if (getJWT().jwt === ""){
+        return
+    }
     let xhr = new XMLHttpRequest();
     let params = JSON.stringify({ jwt: getJWT().jwt });
 
@@ -53,7 +56,7 @@ export const refreshJWTToken = () => {
     );
 
     xhr.setRequestHeader("Content-type", "application/json");
-    xhr.setRequestHeader("Authorization", "Bearer " + getJWT());
+    xhr.setRequestHeader("Authorization", "Bearer " + getJWT().jwt);
 
     xhr.send(params);
     document.cookie =
