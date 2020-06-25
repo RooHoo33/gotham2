@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { getJWT } from "../../api/securityAPI";
 import {getAllUsers, saveUsers, userType} from "../../api/userApi";
 import EditUserRow from "./EditUserRow";
+import CreateChoreChartTemplate from "./CreateChoreChartTemplate";
 
 const AdminView = () => {
   const [isChoreChartChairman, setIsChoreChartChairman] = useState(
@@ -9,6 +10,8 @@ const AdminView = () => {
   );
 
   const [users, setUsers] = useState<userType[]>([]);
+
+  const [createingTemplate, setCreatingTemplate] = useState(false)
 
   const loadAllUsers = () => {
       getAllUsers().then((data) =>setUsers(data));
@@ -54,6 +57,17 @@ const AdminView = () => {
         >
             Save changes
         </button>
+        <button
+            type="button"
+            className="btn btn-primary"
+            onClick={() => setCreatingTemplate(true)}
+        >
+            create template
+        </button>
+        {createingTemplate &&
+           <CreateChoreChartTemplate />
+
+        }
     </div>
 
   );
