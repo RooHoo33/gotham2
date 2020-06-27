@@ -26,7 +26,6 @@ export type templateChore = {
 
 export type template = {
   name: string;
-  defaultTemplate: boolean
   id: number;
   templateDays: templateDay[];
   templateChores: templateChore[];

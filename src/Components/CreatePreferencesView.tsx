@@ -9,7 +9,7 @@ import {
   postUserPreferences,
   choreChart,
   viewPreviewChoreChart,
-} from "../../api/choreChartApi";
+} from "../api/choreChartApi";
 import UserChorePrefrenceEdit from "./UserChorePreferenceEdit";
 import StatusBarTicker from "./StatusBarTicker";
 import ChoreChartDisplay from "./ChoreChartDisplay";

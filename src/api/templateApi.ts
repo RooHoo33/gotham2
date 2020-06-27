@@ -1,4 +1,4 @@
-import {chore, day, template} from "./choreChartApi";
+import {chore, day} from "./choreChartApi";
 
 export const getDays = async (): Promise<day[]> => {
         const axios = require("axios").default;
@@ -16,18 +16,6 @@ export const getChores = async (): Promise<chore[]> => {
         .get("http://localhost:8080/api/chores?projection=withChore")
         .then((data: any) => {
             return data.data._embedded.chores;
-        });
-
-
-}
-
-export const postTemplate = async (template: template): Promise<string> => {
-    console.log(template)
-    const axios = require("axios").default;
-    return await axios
-        .post("http://localhost:8080/api/templates", template)
-        .then((data: any) => {
-            return "OK";
         });
 
 
