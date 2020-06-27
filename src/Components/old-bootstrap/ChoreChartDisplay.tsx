@@ -1,6 +1,6 @@
 // import useState next to FunctionComponent
 import React, { FunctionComponent} from "react";
- import {templateDay, templateChore, choreChartUnit, choreChart} from "../api/choreChartApi";
+ import {templateDay, templateChore, choreChartUnit, choreChart} from "../../api/choreChartApi";
 
 const ChoreChartDisplay: FunctionComponent<{ choreChart: choreChart, title:string }> = ({choreChart, title}) => {
   const getDate = (weekString: string) => {

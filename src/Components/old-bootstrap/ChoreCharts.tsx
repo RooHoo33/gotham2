@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import ChoreChartDisplay from "./ChoreChartDisplay";
-import { getChoreCharts, choreChart } from "../api/choreChartApi";
+import { getChoreCharts, choreChart } from "../../api/choreChartApi";
 import React from "react";
 import CreatePreferencesView from "./CreatePreferencesView";
 import AdminView from "./admin/AdminView";

@@ -1,5 +1,5 @@
 import React, {FC, useState} from "react";
-import {createUser, loginData, loginFormType, loginUser} from "../api/userApi";
+import {createUser, loginData, loginFormType, loginUser} from "../../api/userApi";
 import LoginForm from "./LoginForm";
 import CreatePreferencesView from "./CreatePreferencesView";
 import CreateUserView from "./CreateUserView";

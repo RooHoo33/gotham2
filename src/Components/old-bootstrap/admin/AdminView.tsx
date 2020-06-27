@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { getJWT } from "../../api/securityAPI";
-import {getAllUsers, saveUsers, userType} from "../../api/userApi";
+import { getJWT } from "../../../api/securityAPI";
+import {getAllUsers, saveUsers, userType} from "../../../api/userApi";
 import EditUserRow from "./EditUserRow";
 import CreateChoreChartTemplate from "./CreateChoreChartTemplate";
 
@@ -59,7 +59,7 @@ const AdminView = () => {
         </button>
         <button
             type="button"
-            className="btn btn-primary"
+            className="btn ml-3 btn-primary"
             onClick={() => setCreatingTemplate(true)}
         >
             create template

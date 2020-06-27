@@ -1,4 +1,4 @@
-import {userType} from "../../api/userApi";
+import {userType} from "../../../api/userApi";
 import React, {FC} from "react";
 
 const EditUserRow: FC<{saveEdit: (user:userType, index: number) => void, user: userType, index: number}> = ({saveEdit, user, index}) =>{

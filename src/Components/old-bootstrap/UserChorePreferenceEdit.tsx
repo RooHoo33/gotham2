@@ -1,4 +1,4 @@
-import {userChoreChartPreference} from "../api/choreChartApi";
+import {userChoreChartPreference} from "../../api/choreChartApi";
 import React, {FC} from "react";
 
 type asdf = {

@@ -1,5 +1,5 @@
 import React, { FC, useState } from "react";
-import { createUser, createUserType } from "../api/userApi";
+import { createUser, createUserType } from "../../api/userApi";
 
 const CreateUserView: FC<{ loggingIn: (isLogginIn: boolean) => void }> = ({
   loggingIn,
