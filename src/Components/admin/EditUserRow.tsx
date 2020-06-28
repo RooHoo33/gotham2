@@ -11,10 +11,13 @@ const EditUserRow: FC<{
       <th scope="row">{user.associateMemeber ? "" : user.kappaSigma}</th>
       <td>{user.firstName}</td>
       <td>{user.lastName}</td>
-      <td>
+      <td className={" align-content-center"}>
         <input
           className="form-check-input"
           type="checkbox"
+          style={{
+            transform: "scale(1.25)",
+          }}
           onChange={(event) => {
             user.active = !user.active;
             saveEdit(user, index);

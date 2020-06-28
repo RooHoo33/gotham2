@@ -16,3 +16,5 @@ export const getChores = async (): Promise<chore[]> => {
       return data.data._embedded.chores;
     });
 };
+
+

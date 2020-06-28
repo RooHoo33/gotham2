@@ -14,6 +14,7 @@ import UserChorePrefrenceEdit from "./UserChorePreferenceEdit";
 import StatusBarTicker from "./StatusBarTicker";
 import ChoreChartDisplay from "./ChoreChartDisplay";
 import ReactTooltip from "react-tooltip";
+import { useToasts } from "react-toast-notifications";
 
 type createPreferencesViewErrors = {
   numberOfUserChorePreferencesError: Boolean;
@@ -21,6 +22,7 @@ type createPreferencesViewErrors = {
 };
 
 const CreatePreferencesView = () => {
+  const { addToast } = useToasts();
   let [userChorePreferences, setUserChorePreferences] = useState<
     userChoreChartPreference[]
   >([]);
@@ -52,9 +54,11 @@ const CreatePreferencesView = () => {
   const saveUserPreferences = () => {
     if (userChorePreferences) {
       setSubmitting(true);
-      postUserPreferences(userChorePreferences).then((data) =>
-        setUserChorePreferences(data)
-      );
+      postUserPreferences(userChorePreferences).then((data) => {
+        addToast("Preferences Updated", { appearance: "success" });
+        setUserChorePreferences(data);
+        setSubmitting(false);
+      });
     }
   };
 
@@ -196,12 +200,12 @@ const CreatePreferencesView = () => {
             })}
           </tbody>
         </table>
-        <StatusBarTicker
-          submitting={submitting}
-          setSubmitting={(value) => {
-            setSubmitting(value);
-          }}
-        />
+        {/*<StatusBarTicker*/}
+        {/*  submitting={submitting}*/}
+        {/*  setSubmitting={(value) => {*/}
+        {/*    setSubmitting(value);*/}
+        {/*  }}*/}
+        {/*/>*/}
         <div className={"row mt-3"}>
           <div className={"col"}>
             <button

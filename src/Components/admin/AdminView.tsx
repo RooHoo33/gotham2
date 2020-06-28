@@ -4,6 +4,7 @@ import { getAllUsers, saveUsers, userType } from "../../api/userApi";
 import EditUserRow from "./EditUserRow";
 import CreateChoreChartTemplate from "./CreateChoreChartTemplate";
 import Modal from "react-modal";
+import { useToasts } from "react-toast-notifications";
 
 const customStyles = {
   overlay: {
@@ -32,6 +33,8 @@ const customStyles = {
 };
 
 const AdminView = () => {
+  const { addToast } = useToasts();
+
   const [isChoreChartChairman, setIsChoreChartChairman] = useState(
     getJWT().matComChairmen
   );
@@ -112,7 +115,13 @@ const AdminView = () => {
       <button
         type="button"
         className="btn btn-primary"
-        onClick={() => saveUsers(users).then((data) => loadAllUsers())}
+        onClick={() => {
+          saveUsers(users).then((data) => {
+            addToast("Users Saved", { appearance: "success" });
+
+            loadAllUsers();
+          });
+        }}
       >
         Save changes
       </button>

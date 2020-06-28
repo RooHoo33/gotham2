@@ -7,12 +7,14 @@ import axios from "axios";
 // @ts-ignore
 import * as jwt_decode from "jwt-decode";
 import {
-    getJWT, jwtType,
-    jwtValidateIn30Minutes,
-    jwtValide,
-    refreshJWTToken,
+  getJWT,
+  jwtType,
+  jwtValidateIn30Minutes,
+  jwtValide,
+  refreshJWTToken,
 } from "./api/securityAPI";
-import {Header} from "./Components/Header";
+import { Header } from "./Components/Header";
+import { ToastProvider } from "react-toast-notifications";
 
 type authType = {
   jwt: jwtType;
@@ -38,15 +40,18 @@ axios.interceptors.request.use(
 );
 
 const App = () => {
-  const [auth, setAuth] = useState<authType>({ jwt: {jwt: "", email: "", exp: 0, iat: 0, id: 0, matComChairmen: false}, authenticated: false });
+  const [auth, setAuth] = useState<authType>({
+    jwt: { jwt: "", email: "", exp: 0, iat: 0, id: 0, matComChairmen: false },
+    authenticated: false,
+  });
 
   const setAuthOnLogin = (authInfo: loginData) => {
     document.cookie = "jwttoken=" + authInfo.jwt;
-    let jwt = getJWT()
+    let jwt = getJWT();
     setAuth({ authenticated: authInfo.success, jwt: jwt });
   };
   useEffect(() => {
-      let jwt = getJWT()
+    let jwt = getJWT();
     if (jwt.jwt !== "") {
       setAuth({ jwt, authenticated: jwt.exp > Date.now() / 1000 });
     }
@@ -57,13 +62,14 @@ const App = () => {
   }
 
   return (
-      <div>
+    <div>
+      <ToastProvider autoDismissTimeout={4000}>
         <Header setAuth={setAuthOnLogin} />
         <div className={"container"}>
           <ChoreCharts />
         </div>
-      </div>
-
+      </ToastProvider>
+    </div>
   );
 };
 
