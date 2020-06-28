@@ -1,5 +1,9 @@
 import React, { FC, useEffect, useState } from "react";
-import { getTemplates, postTemplates } from "../../api/templateApi";
+import {
+  deleteTemplate,
+  getTemplates,
+  postTemplates,
+} from "../../api/templateApi";
 import { template } from "../../api/choreChartApi";
 import { useToasts } from "react-toast-notifications";
 
@@ -12,7 +16,7 @@ const ManageTemplates: FC<{
   >([]);
   const { addToast } = useToasts();
 
-  useEffect(() => {
+  const loadInformation = () => {
     getTemplates().then((data) => {
       setTemplates(data);
       setCurrentlyOpen(
@@ -21,6 +25,10 @@ const ManageTemplates: FC<{
         })
       );
     });
+  };
+
+  useEffect(() => {
+    loadInformation();
   }, []);
 
   if (templates.length === 0 || currentlyOpen.length === 0) {
@@ -130,6 +138,14 @@ const ManageTemplates: FC<{
                         );
                       })}
                     </div>
+                    <button
+                      onClick={() => {
+                        deleteTemplate(template.id).then(loadInformation);
+                      }}
+                      className={"btn btn-warning align-self-end mr-4"}
+                    >
+                      delete
+                    </button>
                   </div>
                 </div>
               </div>

@@ -43,3 +43,12 @@ export const postTemplates = async (templates: template[]): Promise<string> => {
       return "OK";
     });
 };
+
+export const deleteTemplate = async (templateId: number): Promise<string> => {
+  const axios = require("axios").default;
+  return await axios
+    .delete(`http://localhost:8080/api/templates/${templateId}`)
+    .then((data: any) => {
+      return "OK";
+    });
+};
