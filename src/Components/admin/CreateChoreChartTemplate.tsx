@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { getChores, getDays } from "../../api/templateApi";
+import React, { FC, useEffect, useState } from "react";
+import { getChores, getDays, postTemplate } from "../../api/templateApi";
 import {
   chore,
   day,
@@ -17,16 +17,34 @@ type dayForTemplate = {
   day: templateDay;
   active: boolean;
 };
-const CreateChoreChartTemplate = () => {
+const CreateChoreChartTemplate: FC<{
+  setModalOpen: (open: boolean) => void;
+}> = ({ setModalOpen }) => {
   const [template, setTemplate] = useState<template>({
     id: 0,
     name: "",
     templateChores: [],
     templateDays: [],
+    active: false,
   });
 
   const [days, setDays] = useState<dayForTemplate[]>([]);
   const [chores, setChores] = useState<choreForTemplate[]>([]);
+
+  const submitTemplate = () => {
+    let templateToSubmit: template = {
+      templateDays: days.filter((value) => value.active).map((day) => day.day),
+      templateChores: chores
+        .filter((value) => value.active)
+        .map((chore) => chore.chore),
+      name: template.name,
+      id: 0,
+      active: false,
+    };
+    postTemplate(templateToSubmit).then(() => {
+      setModalOpen(false);
+    });
+  };
 
   useEffect(() => {
     getDays().then((data) => {
@@ -122,6 +140,24 @@ const CreateChoreChartTemplate = () => {
           })}
         </div>
       </div>
+      <button
+        type="button"
+        className="btn mt-4 btn-primary"
+        onClick={() => {
+          submitTemplate();
+        }}
+      >
+        save
+      </button>
+      <button
+        type="button"
+        className="btn mt-4 ml-2 btn-secondary"
+        onClick={() => {
+          setModalOpen(false);
+        }}
+      >
+        canel
+      </button>
     </div>
   );
 };

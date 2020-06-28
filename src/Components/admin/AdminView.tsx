@@ -5,6 +5,7 @@ import EditUserRow from "./EditUserRow";
 import CreateChoreChartTemplate from "./CreateChoreChartTemplate";
 import Modal from "react-modal";
 import { useToasts } from "react-toast-notifications";
+import ManageTemplates from "./ManageTemplates";
 
 const customStyles = {
   overlay: {
@@ -44,6 +45,7 @@ const AdminView = () => {
   const [users, setUsers] = useState<userType[]>([]);
 
   const [createingTemplate, setCreatingTemplate] = useState(false);
+  const [manageTemplates, setManageTemplates] = useState(false);
 
   const loadAllUsers = () => {
     getAllUsers().then((data) => setUsers(data));
@@ -81,16 +83,31 @@ const AdminView = () => {
           >
             <span aria-hidden="true">&times;</span>
           </button>
-          <CreateChoreChartTemplate />
+          <CreateChoreChartTemplate setModalOpen={setCreateTemplateOpen} />
+        </Modal>
+
+        <Modal
+          isOpen={manageTemplates}
+          style={{
+            ...customStyles,
+            content: {
+              ...customStyles.content,
+              height: "650px",
+            },
+          }}
+          onAfterOpen={() => {}}
+          onRequestClose={() => {}}
+          contentLabel="Example Modal"
+        >
           <button
             type="button"
-            className="btn mt-4 btn-warning"
-            onClick={() => {
-              setCreateTemplateOpen(false);
-            }}
+            className="close float-right"
+            onClick={() => setManageTemplates(false)}
+            aria-label="Close"
           >
-            canel
+            <span aria-hidden="true">&times;</span>
           </button>
+          <ManageTemplates setModalOpen={setManageTemplates} />
         </Modal>
       </div>
 
@@ -131,6 +148,14 @@ const AdminView = () => {
         onClick={() => setCreateTemplateOpen(true)}
       >
         create template
+      </button>
+
+      <button
+        type="button"
+        className="btn ml-3 btn-primary"
+        onClick={() => setManageTemplates(true)}
+      >
+        manage templates
       </button>
     </div>
   );

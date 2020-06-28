@@ -27,6 +27,7 @@ export type templateChore = {
 export type template = {
   name: string;
   id: number;
+  active: boolean;
   templateDays: templateDay[];
   templateChores: templateChore[];
 };
