@@ -36,24 +36,26 @@ const CreateChoreChartTemplate = () => {
         <div className={"row"}>
         <div className="col">
             <div className="form-group">
-                <label htmlFor="exampleFormControlInput1">Template name</label>
-                <input  onChange={(event => setTemplate({...template, name:event.target.value}))} className="form-control" id="exampleFormControlInput1"
+                <label htmlFor="tempalteName">Template name</label>
+                <input  onChange={(event => setTemplate({...template, name:event.target.value}))} className="form-control" id="tempalteName"
                        placeholder="Template name" />
             </div>
         </div>
         <div className="col" />
         </div>
         <div style={{fontSize: "22px"}} className={"row"}>
-            <div className="col" >
+            <div className="col pl-5 pr-5" >
                 {days.map((day, index) =>{
                     return <div className={"row"}>
-                        <div className="col">
-                            {day.day.day.name}
-                        </div>
-                        <div className="col" >
+
+                        <div className={"form-check mb-2"}>
                             <input
+                                id={day.day.day.name}
                                 className="form-check-input"
                                 type="checkbox"
+                                style={{
+                                    transform:"scale(1.5)"
+                                }}
                                 onChange={(event) =>{
                                     day.active = !day.active
                                     let localDays = [...days]
@@ -62,6 +64,7 @@ const CreateChoreChartTemplate = () => {
                                 }
                                 checked={day.active}
                             />
+                            <label className="form-check-label" htmlFor={day.day.day.name}>{day.day.day.name}</label>
                         </div>
                     </div>
                 })
@@ -69,14 +72,14 @@ const CreateChoreChartTemplate = () => {
             </div>
             <div className="col">
                 {chores.map((chore, index) =>{
-                    return <div className={"row"}>
-                        <div className="col">
-                            {chore.chore.chore.name}
-                        </div>
-                        <div className="col" >
+                    return <div className="form-check mb-2" >
                             <input
                                 className="form-check-input"
+                                id={chore.chore.chore.name}
                                 type="checkbox"
+                                style={{
+                                    transform:"scale(1.5)"
+                                }}
                                 onChange={(event) =>{
                                     chore.active = !chore.active
                                     let localChores = [...chores]
@@ -85,7 +88,7 @@ const CreateChoreChartTemplate = () => {
                                 }
                                 checked={chore.active}
                             />
-                        </div>
+                        <label className="form-check-label" htmlFor={chore.chore.chore.name}>{chore.chore.chore.name}</label>
                     </div>
                 })
                 }
