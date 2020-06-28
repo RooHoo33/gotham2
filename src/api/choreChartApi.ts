@@ -1,14 +1,6 @@
-export type chore = {
-  id: number;
-  name: string;
-  rank: number;
-};
+export interface chore extends choreOrDayType {}
 
-export type day = {
-  id: number;
-  name: string;
-  rank: number;
-};
+export interface day extends choreOrDayType {}
 
 export type user = {
   kappaSigma: number;
@@ -22,6 +14,12 @@ export type templateDay = {
 export type templateChore = {
   id: number;
   chore: chore;
+};
+
+export type choreOrDayType = {
+  id: number;
+  name: string;
+  rank: number;
 };
 
 export type template = {
@@ -104,6 +102,24 @@ export const viewPreviewChoreChart = async (
   const axios = require("axios").default;
   return await axios
     .post("http://localhost:8080/api/preview-chore-chart", userChorePreferences)
+    .then((data: any) => {
+      return data.data;
+    });
+};
+
+export const postDays = async (days: day[]): Promise<day[]> => {
+  const axios = require("axios").default;
+  return await axios
+    .post("http://localhost:8080/api/batch/days", days)
+    .then((data: any) => {
+      return data.data;
+    });
+};
+
+export const postChores = async (chores: chore[]): Promise<chore[]> => {
+  const axios = require("axios").default;
+  return await axios
+    .post("http://localhost:8080/api/batch/chores", chores)
     .then((data: any) => {
       return data.data;
     });

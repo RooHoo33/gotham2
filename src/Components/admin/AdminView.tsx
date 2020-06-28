@@ -6,6 +6,8 @@ import CreateChoreChartTemplate from "./CreateChoreChartTemplate";
 import Modal from "react-modal";
 import { useToasts } from "react-toast-notifications";
 import ManageTemplates from "./ManageTemplates";
+import ManageOrderOfType from "./MangeOrderType";
+import ManageOrder from "./ManageOrder";
 
 const customStyles = {
   overlay: {
@@ -46,6 +48,7 @@ const AdminView = () => {
 
   const [createingTemplate, setCreatingTemplate] = useState(false);
   const [manageTemplates, setManageTemplates] = useState(false);
+  const [mangeOrder, setManageOrder] = useState(false);
 
   const loadAllUsers = () => {
     getAllUsers().then((data) => setUsers(data));
@@ -109,6 +112,29 @@ const AdminView = () => {
           </button>
           <ManageTemplates setModalOpen={setManageTemplates} />
         </Modal>
+        <Modal
+          isOpen={mangeOrder}
+          style={{
+            ...customStyles,
+            content: {
+              ...customStyles.content,
+              height: "650px",
+            },
+          }}
+          onAfterOpen={() => {}}
+          onRequestClose={() => {}}
+          contentLabel="Example Modal"
+        >
+          <button
+            type="button"
+            className="close float-right"
+            onClick={() => setManageOrder(false)}
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <ManageOrder setModalOpen={setManageOrder} />
+        </Modal>
       </div>
 
       <h1 className="display-8 mb-3">Admin</h1>
@@ -156,6 +182,14 @@ const AdminView = () => {
         onClick={() => setManageTemplates(true)}
       >
         manage templates
+      </button>
+
+      <button
+        type="button"
+        className="btn ml-3 btn-primary"
+        onClick={() => setManageOrder(true)}
+      >
+        manage order
       </button>
     </div>
   );
