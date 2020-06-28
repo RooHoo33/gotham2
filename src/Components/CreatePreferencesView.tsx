@@ -84,8 +84,7 @@ const CreatePreferencesView = () => {
         }
       });
 
-
-      setUserChorePreferences( localUserChorePreferences );
+      setUserChorePreferences(localUserChorePreferences);
       setErrors({ ...errors, numberOfUserChorePreferencesError: false });
     }
   }
@@ -118,17 +117,13 @@ const CreatePreferencesView = () => {
         userChorePreferences.splice(currentIndex, 1);
         currentValue.rank = newRank;
         setUserChorePreferences(userChorePreferences.concat([currentValue]));
-        setViewingPreviewChart(false)
+        setViewingPreviewChart(false);
         setErrors({ ...errors, repeatRankError: false });
       }
     }
   };
 
-  if (
-    !userChorePreferences ||
-    userChorePreferences.length === 0 ||
-    !template
-  ) {
+  if (!userChorePreferences || userChorePreferences.length === 0 || !template) {
     return <div />;
   }
   return (
@@ -163,7 +158,7 @@ const CreatePreferencesView = () => {
             {template.templateChores.map((templateChore: templateChore) => {
               // @ts-ignore
               if (!userChorePreferences) {
-                return <div/>
+                return <div />;
               }
               let filteredUserPreferences: userChoreChartPreference[] = userChorePreferences.filter(
                 (userChoreChartPreference: userChoreChartPreference) => {

@@ -20,8 +20,7 @@ const CreateUserView: FC<{ loggingIn: (isLogginIn: boolean) => void }> = ({
 
   const submitUser = () => {
     if (
-        (user.bigB === 0 &&
-      user.kappaSigma === 0) ||
+      (user.bigB === 0 && user.kappaSigma === 0) ||
       user.email === "" ||
       !user.email.includes("@") ||
       user.firstName === "" ||
@@ -50,11 +49,11 @@ const CreateUserView: FC<{ loggingIn: (isLogginIn: boolean) => void }> = ({
         </div>
       )}
 
-        {createUserError && (
-            <div className="alert alert-dismissible text-left alert-danger">
-                Cannot create account. Please try again.{" "}
-            </div>
-        )}
+      {createUserError && (
+        <div className="alert alert-dismissible text-left alert-danger">
+          Cannot create account. Please try again.{" "}
+        </div>
+      )}
       <input
         type="email"
         id="inputEmail"

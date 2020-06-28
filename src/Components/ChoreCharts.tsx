@@ -21,10 +21,15 @@ const ChoreCharts = () => {
       setChoreCharts(data);
     });
   }, []);
+
   return (
-    <div >
+    <div>
       {choreCharts?.map((choreChart) => {
-        return <div className={"jumbotron border-5 border-success mt-4"}><ChoreChartDisplay choreChart={choreChart} title={"Chore Chart"} /></div>;
+        return (
+          <div className={"jumbotron border-5 border-success mt-4"}>
+            <ChoreChartDisplay choreChart={choreChart} title={"Chore Chart"} />
+          </div>
+        );
       })}
       <AdminView />
       <CreatePreferencesView />
