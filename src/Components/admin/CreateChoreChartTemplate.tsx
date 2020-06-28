@@ -30,8 +30,12 @@ const CreateChoreChartTemplate: FC<{
 
   const [days, setDays] = useState<dayForTemplate[]>([]);
   const [chores, setChores] = useState<choreForTemplate[]>([]);
+  const [badTemplateName, setBadTemplateName] = useState(false);
 
   const submitTemplate = () => {
+    if (template.name === "") {
+      setBadTemplateName(true);
+    }
     let templateToSubmit: template = {
       templateDays: days.filter((value) => value.active).map((day) => day.day),
       templateChores: chores
@@ -62,6 +66,11 @@ const CreateChoreChartTemplate: FC<{
   }, []);
   return (
     <div className=" mt-4">
+      {badTemplateName && (
+        <div className="alert alert-dismissible alert-danger">
+          Please include a template name
+        </div>
+      )}
       <div className={"row"}>
         <div className="col">
           <div className="form-group">
