@@ -76,6 +76,7 @@ const ManageTemplates: FC<{
                       <div className={"d-inline-flex float-right"}>
                         <input
                           className="form-check-input"
+                          id={template.name}
                           type="checkbox"
                           checked={template.active}
                           style={{
@@ -83,7 +84,10 @@ const ManageTemplates: FC<{
                           }}
                           onChange={() => saveActive(template)}
                         />
-                        <label className="form-check-label">
+                        <label
+                          htmlFor={template.name}
+                          className="form-check-label"
+                        >
                           <p>Active?</p>
                         </label>
                       </div>
