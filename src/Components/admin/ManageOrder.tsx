@@ -1,12 +1,6 @@
 import React, { FC, useEffect, useState } from "react";
 import ManageOrderOfType from "./MangeOrderType";
-import {
-  chore,
-  choreOrDayType,
-  day,
-  postChores,
-  postDays,
-} from "../../api/choreChartApi";
+import { choreOrDayType, postChores, postDays } from "../../api/choreChartApi";
 import { getChores, getDays } from "../../api/templateApi";
 const ManageOrder: FC<{
   setModalOpen: (open: boolean) => void;

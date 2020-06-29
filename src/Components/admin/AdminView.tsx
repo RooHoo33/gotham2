@@ -6,7 +6,6 @@ import CreateChoreChartTemplate from "./CreateChoreChartTemplate";
 import Modal from "react-modal";
 import { useToasts } from "react-toast-notifications";
 import ManageTemplates from "./ManageTemplates";
-import ManageOrderOfType from "./MangeOrderType";
 import ManageOrder from "./ManageOrder";
 
 const customStyles = {
@@ -38,15 +37,12 @@ const customStyles = {
 const AdminView = () => {
   const { addToast } = useToasts();
 
-  const [isChoreChartChairman, setIsChoreChartChairman] = useState(
-    getJWT().matComChairmen
-  );
+  const [isChoreChartChairman] = useState(getJWT().matComChairmen);
 
   const [createTemplateOpen, setCreateTemplateOpen] = useState(false);
 
   const [users, setUsers] = useState<userType[]>([]);
 
-  const [createingTemplate, setCreatingTemplate] = useState(false);
   const [manageTemplates, setManageTemplates] = useState(false);
   const [mangeOrder, setManageOrder] = useState(false);
 
@@ -159,7 +155,7 @@ const AdminView = () => {
         type="button"
         className="btn btn-primary"
         onClick={() => {
-          saveUsers(users).then((data) => {
+          saveUsers(users).then(() => {
             addToast("Users Saved", { appearance: "success" });
 
             loadAllUsers();

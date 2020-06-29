@@ -4,8 +4,6 @@ import ChoreCharts from "./Components/ChoreCharts";
 import LoginScreen from "./Components/LoginScreen";
 import { loginData } from "./api/userApi";
 import axios from "axios";
-// @ts-ignore
-import * as jwt_decode from "jwt-decode";
 import {
   getJWT,
   jwtType,

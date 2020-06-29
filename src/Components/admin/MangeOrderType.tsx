@@ -1,15 +1,12 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC } from "react";
 import { SortableContainer, SortableElement } from "react-sortable-hoc";
 import arrayMove from "array-move";
-import { getChores, getDays } from "../../api/templateApi";
-import { chore, choreOrDayType, day } from "../../api/choreChartApi";
+import { choreOrDayType, day } from "../../api/choreChartApi";
 
 const SortableItem = SortableElement<{ value: string }>(
   ({ value }: { value: string }) => {
     return (
-      // <div className={"card"}>
       <div className={"list-group-item list-group-item-action"}>{value}</div>
-      // </div>
     );
   }
 );

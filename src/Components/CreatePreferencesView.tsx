@@ -11,7 +11,6 @@ import {
   viewPreviewChoreChart,
 } from "../api/choreChartApi";
 import UserChorePrefrenceEdit from "./UserChorePreferenceEdit";
-import StatusBarTicker from "./StatusBarTicker";
 import ChoreChartDisplay from "./ChoreChartDisplay";
 import ReactTooltip from "react-tooltip";
 import { useToasts } from "react-toast-notifications";
@@ -42,9 +41,11 @@ const CreatePreferencesView = () => {
 
   useEffect(() => {
     getTemplates().then((data) => {
-      data[0].templateChores.sort((a, b) => a.chore.rank - b.chore.rank);
-      data[0].templateDays.sort((a, b) => a.day.rank - b.day.rank);
-      setTemplate(data[0]);
+      if (data.length !== 0) {
+        data[0].templateChores.sort((a, b) => a.chore.rank - b.chore.rank);
+        data[0].templateDays.sort((a, b) => a.day.rank - b.day.rank);
+        setTemplate(data[0]);
+      }
     });
     getUserPreferences("default").then((data) => {
       setUserChorePreferences(data);
@@ -132,7 +133,6 @@ const CreatePreferencesView = () => {
   }
   return (
     <div className={"jumbotron border-5 border-primary mt-4"}>
-      {/*<div className={"border-primary"} />*/}
       <div>
         {errors.repeatRankError && (
           <div className="alert alert-dismissible alert-danger">
@@ -160,7 +160,6 @@ const CreatePreferencesView = () => {
           </thead>
           <tbody>
             {template.templateChores.map((templateChore: templateChore) => {
-              // @ts-ignore
               if (!userChorePreferences) {
                 return <div />;
               }
@@ -179,7 +178,6 @@ const CreatePreferencesView = () => {
                   <th scope="row">{templateChore.chore.name}</th>
                   {filteredUserPreferences?.map(
                     (userChorePreference: userChoreChartPreference) => {
-                      // @ts-ignore
                       return (
                         <td>
                           <UserChorePrefrenceEdit
@@ -200,12 +198,6 @@ const CreatePreferencesView = () => {
             })}
           </tbody>
         </table>
-        {/*<StatusBarTicker*/}
-        {/*  submitting={submitting}*/}
-        {/*  setSubmitting={(value) => {*/}
-        {/*    setSubmitting(value);*/}
-        {/*  }}*/}
-        {/*/>*/}
         <div className={"row mt-3"}>
           <div className={"col"}>
             <button

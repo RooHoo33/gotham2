@@ -12,7 +12,7 @@ export type jwtType = {
 
 export const getJWT = (): jwtType => {
   let jwt = document.cookie.replace(
-    /(?:(?:^|.*;\s*)jwttoken\s*\=\s*([^;]*).*$)|^.*$/,
+    /(?:(?:^|.*;\s*)jwttoken\s*=\s*([^;]*).*$)|^.*$/,
     "$1"
   );
   if (jwt) {

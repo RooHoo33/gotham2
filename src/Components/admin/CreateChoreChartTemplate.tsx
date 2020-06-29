@@ -1,12 +1,6 @@
 import React, { FC, useEffect, useState } from "react";
 import { getChores, getDays, postTemplate } from "../../api/templateApi";
-import {
-  chore,
-  day,
-  template,
-  templateChore,
-  templateDay,
-} from "../../api/choreChartApi";
+import { template, templateChore, templateDay } from "../../api/choreChartApi";
 
 type choreForTemplate = {
   chore: templateChore;
