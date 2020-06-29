@@ -8,7 +8,7 @@ const CreateUserView: FC<{ loggingIn: (isLogginIn: boolean) => void }> = ({
   const [createUserError, setCreateUserError] = useState(false);
 
   const [user, setUser] = useState<createUserType>({
-    active: true,
+    active: false,
     bigB: 0,
     email: "",
     firstName: "",
@@ -107,6 +107,7 @@ const CreateUserView: FC<{ loggingIn: (isLogginIn: boolean) => void }> = ({
                 setUser({
                   ...user,
                   isAssociateMemeber: !user.isAssociateMemeber,
+                  kappaSigma: 0,
                 })
               }
               checked={user.isAssociateMemeber}
