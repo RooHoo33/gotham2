@@ -17,6 +17,42 @@ export const getChores = async (): Promise<chore[]> => {
     });
 };
 
+export const postDay = async (day: day): Promise<day> => {
+  const axios = require("axios").default;
+  return await axios
+    .post("http://localhost:8080/api/days", day)
+    .then((data: any) => {
+      return data.data;
+    });
+};
+
+export const postChore = async (chore: chore): Promise<chore> => {
+  const axios = require("axios").default;
+  return await axios
+    .post("http://localhost:8080/api/chores", chore)
+    .then((data: any) => {
+      return data.data;
+    });
+};
+
+export const deleteDay = async (id: number): Promise<string> => {
+  const axios = require("axios").default;
+  return await axios
+    .delete(`http://localhost:8080/api/days/${id}`)
+    .then((data: any) => {
+      return "OK";
+    });
+};
+
+export const deleteChore = async (id: number): Promise<string> => {
+  const axios = require("axios").default;
+  return await axios
+    .delete(`http://localhost:8080/api/chores/${id}`)
+    .then((data: any) => {
+      return "OK";
+    });
+};
+
 export const postTemplate = async (template: template): Promise<string> => {
   const axios = require("axios").default;
   return await axios
