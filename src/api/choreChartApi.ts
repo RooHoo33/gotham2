@@ -52,7 +52,6 @@ export type userChoreChartPreference = {
   chore: chore;
   day: day;
   user?: user;
-  week: string;
   rank: number;
 };
 
@@ -64,14 +63,12 @@ export const getChoreCharts = async (): Promise<choreChart[]> => {
       return data.data._embedded.choreCharts;
     });
 };
-export const getUserPreferences = async (
-  week: String
-): Promise<userChoreChartPreference[]> => {
+export const getUserPreferences = async (): Promise<
+  userChoreChartPreference[]
+> => {
   const axios = require("axios").default;
   return await axios
-    .get(
-      `http://localhost:8080/api/userChorePreferences/findByUserIdAndWeek/${week}?projection=withUserChorePreference`
-    )
+    .get(`http://localhost:8080/api/userChorePreferences/search/findByUser`)
     .then((data: any) => {
       return data.data;
     });
@@ -83,6 +80,17 @@ export const getTemplates = async (): Promise<template[]> => {
     .get("http://localhost:8080/api/templates?projection=withTemplate")
     .then((data: any) => {
       return data.data._embedded.templates;
+    });
+};
+
+export const getActiveTemplate = async (): Promise<template> => {
+  const axios = require("axios").default;
+  return await axios
+    .get(
+      "http://localhost:8080/api/templates/search/findByActive?active=true&projection=withTemplate"
+    )
+    .then((data: any) => {
+      return data.data;
     });
 };
 

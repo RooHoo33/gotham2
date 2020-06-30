@@ -9,11 +9,14 @@ import {
   postUserPreferences,
   choreChart,
   viewPreviewChoreChart,
+  day,
+  chore,
 } from "../api/choreChartApi";
 import UserChorePrefrenceEdit from "./UserChorePreferenceEdit";
 import ChoreChartDisplay from "./ChoreChartDisplay";
 import ReactTooltip from "react-tooltip";
 import { useToasts } from "react-toast-notifications";
+import { getChores, getDays } from "../api/templateApi";
 
 type createPreferencesViewErrors = {
   numberOfUserChorePreferencesError: Boolean;
@@ -25,7 +28,9 @@ const CreatePreferencesView = () => {
   let [userChorePreferences, setUserChorePreferences] = useState<
     userChoreChartPreference[]
   >([]);
-  let [template, setTemplate] = useState<template | undefined>(undefined);
+  // let [template, setTemplate] = useState<template | undefined>(undefined);
+  const [days, setDays] = useState<day[]>([]);
+  const [chores, setChores] = useState<chore[]>([]);
   let [errors, setErrors] = useState<createPreferencesViewErrors>({
     numberOfUserChorePreferencesError: false,
     repeatRankError: false,
@@ -41,16 +46,47 @@ const CreatePreferencesView = () => {
 
   useEffect(() => {
     getTemplates().then((data) => {
-      if (data.length !== 0) {
-        data[0].templateChores.sort((a, b) => a.chore.rank - b.chore.rank);
-        data[0].templateDays.sort((a, b) => a.day.rank - b.day.rank);
-        setTemplate(data[0]);
-      }
-    });
-    getUserPreferences("default").then((data) => {
-      setUserChorePreferences(data);
+      let days: day[] = [];
+      let chores: chore[] = [];
+      getDays().then((data) => {
+        days = data;
+        setDays(data.sort((a, b) => a.rank - b.rank));
+      });
+      getChores().then((data) => {
+        chores = data;
+        setChores(data.sort((a, b) => a.rank - b.rank));
+      });
     });
   }, []);
+
+  useEffect(() => {
+    if (chores.length !== 0 && days.length !== 0) {
+      getUserPreferences().then((data) => {
+        console.log(data);
+        let localUserChorePreferences: userChoreChartPreference[] = [];
+        days.map((day) => {
+          chores.map((chore) => {
+            let usersExistingPreference = data.filter(
+              (value) => value.day === day && value.chore === chore
+            );
+            if (usersExistingPreference.length !== 1) {
+              localUserChorePreferences.push({
+                id: 0,
+                chore: chore,
+                day: day,
+                user: undefined,
+                rank: 0,
+              });
+            } else if (usersExistingPreference[0]) {
+              localUserChorePreferences.push(usersExistingPreference[0]);
+            }
+          });
+        });
+
+        setUserChorePreferences(localUserChorePreferences);
+      });
+    }
+  }, [chores, days]);
 
   const saveUserPreferences = () => {
     if (userChorePreferences) {
@@ -62,37 +98,6 @@ const CreatePreferencesView = () => {
       });
     }
   };
-
-  if (template && userChorePreferences) {
-    let numberOfChores = template.templateChores.length;
-    let numberOfDays = template.templateDays.length;
-    if (
-      userChorePreferences.length !== numberOfChores * numberOfDays &&
-      userChorePreferences.length !== 0
-    ) {
-      setErrors({ ...errors, numberOfUserChorePreferencesError: true });
-    }
-    if (userChorePreferences.length !== numberOfChores * numberOfDays) {
-      let localUserChorePreferences: userChoreChartPreference[] = [];
-      template.templateChores.map((templateChore) => {
-        if (template) {
-          template.templateDays.map((templateDay) => {
-            let localUserChorePreference: userChoreChartPreference = {
-              rank: 0,
-              chore: templateChore.chore,
-              day: templateDay.day,
-              id: 0,
-              week: "default",
-            };
-            localUserChorePreferences.push(localUserChorePreference);
-          });
-        }
-      });
-
-      setUserChorePreferences(localUserChorePreferences);
-      setErrors({ ...errors, numberOfUserChorePreferencesError: false });
-    }
-  }
 
   const viewChoreChartPreview = () => {
     if (userChorePreferences) {
@@ -128,7 +133,7 @@ const CreatePreferencesView = () => {
     }
   };
 
-  if (!userChorePreferences || userChorePreferences.length === 0 || !template) {
+  if (!userChorePreferences || userChorePreferences.length === 0) {
     return <div />;
   }
   return (
@@ -153,21 +158,19 @@ const CreatePreferencesView = () => {
           <thead>
             <tr>
               <th scope="col">chore</th>
-              {template.templateDays.map((templateDay: templateDay) => {
-                return <th scope="col">{templateDay.day.name}</th>;
+              {days.map((day: day) => {
+                return <th scope="col">{day.name}</th>;
               })}
             </tr>
           </thead>
           <tbody>
-            {template.templateChores.map((templateChore: templateChore) => {
+            {chores.map((chore: chore) => {
               if (!userChorePreferences) {
                 return <div />;
               }
               let filteredUserPreferences: userChoreChartPreference[] = userChorePreferences.filter(
                 (userChoreChartPreference: userChoreChartPreference) => {
-                  return (
-                    userChoreChartPreference.chore.id === templateChore.chore.id
-                  );
+                  return userChoreChartPreference.chore.id === chore.id;
                 }
               );
 
@@ -175,7 +178,7 @@ const CreatePreferencesView = () => {
 
               return (
                 <tr>
-                  <th scope="row">{templateChore.chore.name}</th>
+                  <th scope="row">{chore.name}</th>
                   {filteredUserPreferences?.map(
                     (userChorePreference: userChoreChartPreference) => {
                       return (
