@@ -5,6 +5,10 @@ export interface day extends choreOrDayType {}
 export type user = {
   kappaSigma: number;
   email: string;
+  isAssociateMemeber: boolean;
+  firstName: string;
+  lastName: string;
+  active: boolean;
 };
 
 export type templateDay = {

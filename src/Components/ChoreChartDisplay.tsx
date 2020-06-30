@@ -1,5 +1,5 @@
 // import useState next to FunctionComponent
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useEffect } from "react";
 import {
   templateDay,
   templateChore,
@@ -36,9 +36,15 @@ const ChoreChartDisplay: FunctionComponent<{
       })
     );
   };
+  choreChart.template.templateChores.sort(
+    (a, b) => a.chore.rank - b.chore.rank
+  );
+  choreChart.template.templateDays.sort((a, b) => a.day.rank - b.day.rank);
+
   if (!choreChart) {
     return <div />;
   }
+
   return (
     <div>
       <div>
@@ -74,13 +80,30 @@ const ChoreChartDisplay: FunctionComponent<{
                     <th scope="row">{templateChore.chore.name}</th>
                     {filteredChoreUnits?.map(
                       (choreChartUnit: choreChartUnit) => {
-                        return (
-                          <td>
-                            {choreChartUnit.user.kappaSigma
-                              ? choreChartUnit.user.kappaSigma
-                              : "No one"}
-                          </td>
-                        );
+                        console.log(choreChartUnit);
+                        if (!choreChartUnit.user) {
+                          return (
+                            <td>
+                              <div className={"text-danger"}>No one</div>
+                            </td>
+                          );
+                        } else if (choreChartUnit.user.isAssociateMemeber) {
+                          return (
+                            <td>
+                              {choreChartUnit.user.firstName +
+                                " " +
+                                choreChartUnit.user.lastName}
+                            </td>
+                          );
+                        } else {
+                          return (
+                            <td>
+                              {choreChartUnit.user.kappaSigma
+                                ? choreChartUnit.user.kappaSigma
+                                : "No one"}
+                            </td>
+                          );
+                        }
                       }
                     )}
                   </tr>
