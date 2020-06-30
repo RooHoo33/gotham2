@@ -13,7 +13,8 @@ type dayForTemplate = {
 };
 const CreateChoreChartTemplate: FC<{
   setModalOpen: (open: boolean) => void;
-}> = ({ setModalOpen }) => {
+  updateTemplates: () => void;
+}> = ({ setModalOpen, updateTemplates }) => {
   const [template, setTemplate] = useState<template>({
     id: 0,
     name: "",
@@ -40,7 +41,7 @@ const CreateChoreChartTemplate: FC<{
       active: false,
     };
     postTemplate(templateToSubmit).then(() => {
-      setModalOpen(false);
+      updateTemplates();
     });
   };
 

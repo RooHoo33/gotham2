@@ -6,6 +6,9 @@ import {
 } from "../../api/templateApi";
 import { template } from "../../api/choreChartApi";
 import { useToasts } from "react-toast-notifications";
+import { customStyles } from "../../resources/ReactModalConfig";
+import CreateChoreChartTemplate from "./CreateChoreChartTemplate";
+import Modal from "react-modal";
 
 const ManageTemplates: FC<{
   setModalOpen: (open: boolean) => void;
@@ -14,6 +17,7 @@ const ManageTemplates: FC<{
   const [currentlyOpen, setCurrentlyOpen] = useState<
     { index: number; open: boolean }[]
   >([]);
+  const [createTemplateOpen, setCreateTemplateOpen] = useState(false);
   const { addToast } = useToasts();
 
   const loadInformation = () => {
@@ -55,6 +59,33 @@ const ManageTemplates: FC<{
 
   return (
     <div className={"mt-4"}>
+      <div style={{ width: "60%" }}>
+        <Modal
+          isOpen={createTemplateOpen}
+          style={customStyles}
+          onAfterOpen={() => {}}
+          onRequestClose={() => {}}
+          contentLabel="Example Modal"
+        >
+          <button
+            type="button"
+            className="close float-right"
+            onClick={() => setCreateTemplateOpen(false)}
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <CreateChoreChartTemplate
+            updateTemplates={() => {
+              setCreateTemplateOpen(false);
+              setTemplates([]);
+              setCurrentlyOpen([]);
+              loadInformation();
+            }}
+            setModalOpen={setCreateTemplateOpen}
+          />
+        </Modal>
+      </div>
       {templates.map((template, index) => {
         return (
           <div className="accordion" id="accordionExample">
@@ -153,6 +184,13 @@ const ManageTemplates: FC<{
           </div>
         );
       })}
+      <button
+        type="button"
+        className="btn mt-4 mr-3 btn-primary"
+        onClick={() => setCreateTemplateOpen(true)}
+      >
+        create template
+      </button>
 
       <button
         className={"btn btn-primary mt-4 "}
