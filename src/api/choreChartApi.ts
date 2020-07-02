@@ -68,7 +68,9 @@ export const getUserPreferences = async (): Promise<
 > => {
   const axios = require("axios").default;
   return await axios
-    .get(`http://localhost:8080/api/userChorePreferences/search/findByUser`)
+    .get(
+      `http://localhost:8080/api/userChorePreferences/search/findByUser?projection=withUserChorePreference`
+    )
     .then((data: any) => {
       return data.data;
     });

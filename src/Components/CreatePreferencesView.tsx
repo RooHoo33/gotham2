@@ -2,9 +2,6 @@ import React, { useEffect, useState } from "react";
 import {
   getUserPreferences,
   getTemplates,
-  template,
-  templateDay,
-  templateChore,
   userChoreChartPreference,
   postUserPreferences,
   choreChart,
@@ -46,14 +43,10 @@ const CreatePreferencesView = () => {
 
   useEffect(() => {
     getTemplates().then((data) => {
-      let days: day[] = [];
-      let chores: chore[] = [];
       getDays().then((data) => {
-        days = data;
         setDays(data.sort((a, b) => a.rank - b.rank));
       });
       getChores().then((data) => {
-        chores = data;
         setChores(data.sort((a, b) => a.rank - b.rank));
       });
     });
@@ -62,12 +55,12 @@ const CreatePreferencesView = () => {
   useEffect(() => {
     if (chores.length !== 0 && days.length !== 0) {
       getUserPreferences().then((data) => {
-        console.log(data);
         let localUserChorePreferences: userChoreChartPreference[] = [];
+
         days.map((day) => {
           chores.map((chore) => {
             let usersExistingPreference = data.filter(
-              (value) => value.day === day && value.chore === chore
+              (value) => value.day.id === day.id && value.chore.id === chore.id
             );
             if (usersExistingPreference.length !== 1) {
               localUserChorePreferences.push({
