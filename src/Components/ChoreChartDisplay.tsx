@@ -99,7 +99,7 @@ const ChoreChartDisplay: FunctionComponent<{
                           return (
                             <td>
                               {choreChartUnit.user.kappaSigma
-                                ? choreChartUnit.user.kappaSigma
+                                ? "KΣ " + choreChartUnit.user.kappaSigma
                                 : "No one"}
                             </td>
                           );

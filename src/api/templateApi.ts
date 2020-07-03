@@ -38,7 +38,7 @@ export const postChore = async (chore: chore): Promise<chore> => {
 export const deleteDay = async (id: number): Promise<string> => {
   const axios = require("axios").default;
   return await axios
-    .delete(`http://localhost:8080/api/days/${id}`)
+    .delete(`http://localhost:8080/api/batch/days/${id}`)
     .then((data: any) => {
       return "OK";
     });
@@ -47,7 +47,7 @@ export const deleteDay = async (id: number): Promise<string> => {
 export const deleteChore = async (id: number): Promise<string> => {
   const axios = require("axios").default;
   return await axios
-    .delete(`http://localhost:8080/api/chores/${id}`)
+    .delete(`http://localhost:8080/api/batch/chores/${id}`)
     .then((data: any) => {
       return "OK";
     });

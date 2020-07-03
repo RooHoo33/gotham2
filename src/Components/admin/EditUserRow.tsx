@@ -1,11 +1,11 @@
-import { userType } from "../../api/userApi";
+import { postSaveUser, userType } from "../../api/userApi";
 import React, { FC } from "react";
 
 const EditUserRow: FC<{
-  saveEdit: (user: userType, index: number) => void;
+  refreshOnSave: () => void;
   user: userType;
   index: number;
-}> = ({ saveEdit, user, index }) => {
+}> = ({ refreshOnSave, user, index }) => {
   return (
     <tr>
       <th scope="row">{user.associateMemeber ? "" : user.kappaSigma}</th>
@@ -20,7 +20,7 @@ const EditUserRow: FC<{
           }}
           onChange={(event) => {
             user.active = !user.active;
-            saveEdit(user, index);
+            postSaveUser(user).then(() => refreshOnSave());
           }}
           checked={user.active}
         />

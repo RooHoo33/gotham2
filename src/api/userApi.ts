@@ -53,6 +53,20 @@ export const getAllUsers = async (): Promise<userType[]> => {
     });
 };
 
+export const postSaveUser = async (user: userType): Promise<string> => {
+  let usersAndActive: any = {};
+  usersAndActive[user.id.toString()] = user.active;
+  const axios = require("axios").default;
+  return await axios
+    .post(
+      "http://localhost:8080/api/batch/users/update-actives",
+      usersAndActive
+    )
+    .then((data: any) => {
+      return "ok";
+    });
+};
+
 export const saveUsers = async (users: userType[]): Promise<string> => {
   let usersAndActive: any = {};
   users.map((user) => {

@@ -1,30 +1,55 @@
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import { SortableContainer, SortableElement } from "react-sortable-hoc";
 import arrayMove from "array-move";
 import { choreOrDayType, day } from "../../api/choreChartApi";
 
-const SortableItem = SortableElement<{ value: string }>(
-  ({ value }: { value: string }) => {
+const SortableItem = SortableElement<{
+  value: day;
+  deleteFun: (id: number) => void;
+}>(
+  ({
+    value,
+    deleteFun,
+  }: {
+    value: choreOrDayType;
+    deleteFun: (id: number) => void;
+  }) => {
     return (
-      <div className={"list-group-item list-group-item-action"}>{value}</div>
+      <div className={"list-group-item list-group-item-action"}>
+        {value.name}
+      </div>
     );
   }
 );
 
-const SortableDayList = SortableContainer(({ items }: { items: day[] }) => {
-  return (
-    <div>
-      {items.map((day: day, index: number) => (
-        <SortableItem key={`item-${day.name}`} index={index} value={day.name} />
-      ))}
-    </div>
-  );
-});
+const SortableDayList = SortableContainer(
+  ({
+    items,
+    deleteFun,
+  }: {
+    items: choreOrDayType[];
+    deleteFun: (id: number) => void;
+  }) => {
+    return (
+      <div>
+        {items.map((day: day, index: number) => (
+          <SortableItem
+            key={`item-${day.name}`}
+            index={index}
+            value={day}
+            deleteFun={deleteFun}
+          />
+        ))}
+      </div>
+    );
+  }
+);
 
 const ManageOrderOfType: FC<{
   choreOrDays: choreOrDayType[];
   updateValues: (values: choreOrDayType[]) => void;
-}> = ({ choreOrDays, updateValues }) => {
+  deleteFun: (id: number) => void;
+}> = ({ choreOrDays, updateValues, deleteFun }) => {
   let onSortEnd = ({
     oldIndex,
     newIndex,
@@ -44,7 +69,13 @@ const ManageOrderOfType: FC<{
     return <div />;
   }
 
-  return <SortableDayList items={choreOrDays} onSortEnd={onSortEnd} />;
+  return (
+    <SortableDayList
+      items={choreOrDays}
+      onSortEnd={onSortEnd}
+      deleteFun={deleteFun}
+    />
+  );
 };
 
 export default ManageOrderOfType;

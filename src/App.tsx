@@ -61,7 +61,7 @@ const App = () => {
 
   return (
     <div>
-      <ToastProvider autoDismissTimeout={4000}>
+      <ToastProvider autoDismiss={true} autoDismissTimeout={5000}>
         <Header setAuth={setAuthOnLogin} />
         <div className={"container"}>
           <ChoreCharts />

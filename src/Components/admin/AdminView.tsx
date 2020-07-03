@@ -8,6 +8,7 @@ import { useToasts } from "react-toast-notifications";
 import ManageTemplates from "./ManageTemplates";
 import ManageOrder from "./ManageOrder";
 import { customStyles } from "../../resources/ReactModalConfig";
+import { postToCreateChoreChart } from "../../api/choreChartApi";
 
 const AdminView = () => {
   const { addToast } = useToasts();
@@ -25,6 +26,11 @@ const AdminView = () => {
     getAllUsers().then((data) => setUsers(data));
   };
 
+  const saveUserAndRefresh = () => {
+    loadAllUsers();
+    addToast("User Saved", { appearance: "success" });
+  };
+
   useEffect(() => {
     loadAllUsers();
   }, []);
@@ -32,12 +38,6 @@ const AdminView = () => {
   if (!isChoreChartChairman) {
     return <div />;
   }
-
-  const saveUser = (user: userType, index: number) => {
-    let localUsers = [...users];
-    localUsers[index] = user;
-    setUsers(localUsers);
-  };
 
   return (
     <div className={"jumbotron border-5 border-warning mt-4"}>
@@ -103,7 +103,11 @@ const AdminView = () => {
         <tbody>
           {users.map((user, index) => {
             return (
-              <EditUserRow saveEdit={saveUser} user={user} index={index} />
+              <EditUserRow
+                refreshOnSave={saveUserAndRefresh}
+                user={user}
+                index={index}
+              />
             );
           })}
         </tbody>
@@ -136,6 +140,14 @@ const AdminView = () => {
         onClick={() => setManageOrder(true)}
       >
         manage order
+      </button>
+
+      <button
+        type="button"
+        className="btn ml-3 btn-primary"
+        onClick={() => postToCreateChoreChart()}
+      >
+        recreate chart
       </button>
     </div>
   );

@@ -3,6 +3,10 @@ export interface chore extends choreOrDayType {}
 export interface day extends choreOrDayType {}
 
 export type user = {
+  bigB: number;
+  greenTeam: boolean;
+  id: number;
+
   kappaSigma: number;
   email: string;
   isAssociateMemeber: boolean;
@@ -117,6 +121,7 @@ export const viewPreviewChoreChart = async (
   return await axios
     .post("http://localhost:8080/api/preview-chore-chart", userChorePreferences)
     .then((data: any) => {
+      console.log(data);
       return data.data;
     });
 };
@@ -136,5 +141,14 @@ export const postChores = async (chores: chore[]): Promise<chore[]> => {
     .post("http://localhost:8080/api/batch/chores", chores)
     .then((data: any) => {
       return data.data;
+    });
+};
+
+export const postToCreateChoreChart = async (): Promise<string> => {
+  const axios = require("axios").default;
+  return await axios
+    .post("http://localhost:8080/api/admin/create-chore-chart")
+    .then((data: any) => {
+      return "OK";
     });
 };

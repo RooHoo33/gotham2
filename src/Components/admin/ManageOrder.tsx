@@ -7,7 +7,14 @@ import {
   postChores,
   postDays,
 } from "../../api/choreChartApi";
-import { getChores, getDays, postChore, postDay } from "../../api/templateApi";
+import {
+  deleteChore,
+  deleteDay,
+  getChores,
+  getDays,
+  postChore,
+  postDay,
+} from "../../api/templateApi";
 
 type manageOrderErrors = {
   createDayError: boolean;
@@ -28,6 +35,18 @@ const ManageOrder: FC<{
     createChoreError: false,
     createDayError: false,
   });
+
+  const removeDay = (id: number) => {
+    deleteDay(id).then(() => {
+      setDays(days.filter((value) => value.id !== id));
+    });
+  };
+
+  const removeChore = (id: number) => {
+    deleteChore(id).then(() => {
+      setChores(chores.filter((value) => value.id !== id));
+    });
+  };
 
   const getChoresAndDays = () => {
     getDays().then((days) => setDays(days.sort((a, b) => a.rank - b.rank)));
@@ -55,7 +74,11 @@ const ManageOrder: FC<{
               <h3>Days</h3>
             </div>
 
-            <ManageOrderOfType choreOrDays={days} updateValues={setDays} />
+            <ManageOrderOfType
+              choreOrDays={days}
+              updateValues={setDays}
+              deleteFun={removeDay}
+            />
           </div>
         </div>
 
@@ -65,7 +88,11 @@ const ManageOrder: FC<{
               <h3>Chores</h3>
             </div>
 
-            <ManageOrderOfType updateValues={setChores} choreOrDays={chores} />
+            <ManageOrderOfType
+              updateValues={setChores}
+              choreOrDays={chores}
+              deleteFun={removeChore}
+            />
           </div>
         </div>
       </div>

@@ -95,6 +95,7 @@ const CreatePreferencesView = () => {
   const viewChoreChartPreview = () => {
     if (userChorePreferences) {
       viewPreviewChoreChart(userChorePreferences).then((data) => {
+        console.log(data);
         setChoreChartPreview(data);
         setViewingPreviewChart(true);
       });
