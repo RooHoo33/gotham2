@@ -8,7 +8,7 @@ import AdminView from "./admin/AdminView";
 const ChoreCharts = () => {
   const [choreCharts, setChoreCharts] = useState<choreChart[] | undefined>([]);
 
-  useEffect(() => {
+  const loadData = () => {
     getChoreCharts().then((data) => {
       data.forEach((dataSingle) => {
         dataSingle.template.templateChores.sort(
@@ -20,6 +20,10 @@ const ChoreCharts = () => {
       });
       setChoreCharts(data);
     });
+  };
+
+  useEffect(() => {
+    loadData();
   }, []);
 
   return (
@@ -31,7 +35,7 @@ const ChoreCharts = () => {
           </div>
         );
       })}
-      <AdminView />
+      <AdminView reloadChoreCharts={loadData} />
       <CreatePreferencesView />
     </div>
   );

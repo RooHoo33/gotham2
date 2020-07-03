@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { getJWT } from "../../api/securityAPI";
 import { getAllUsers, saveUsers, userType } from "../../api/userApi";
 import EditUserRow from "./EditUserRow";
@@ -10,12 +10,12 @@ import ManageOrder from "./ManageOrder";
 import { customStyles } from "../../resources/ReactModalConfig";
 import { postToCreateChoreChart } from "../../api/choreChartApi";
 
-const AdminView = () => {
+const AdminView: FC<{ reloadChoreCharts: () => void }> = ({
+  reloadChoreCharts,
+}) => {
   const { addToast } = useToasts();
 
   const [isChoreChartChairman] = useState(getJWT().matComChairmen);
-
-  const [createTemplateOpen, setCreateTemplateOpen] = useState(false);
 
   const [users, setUsers] = useState<userType[]>([]);
 
@@ -145,7 +145,9 @@ const AdminView = () => {
       <button
         type="button"
         className="btn ml-3 btn-primary"
-        onClick={() => postToCreateChoreChart()}
+        onClick={() => {
+          postToCreateChoreChart().then(() => reloadChoreCharts());
+        }}
       >
         recreate chart
       </button>
