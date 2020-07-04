@@ -9,6 +9,7 @@ import ManageTemplates from "./ManageTemplates";
 import ManageOrder from "./ManageOrder";
 import { customStyles } from "../../resources/ReactModalConfig";
 import { postToCreateChoreChart } from "../../api/choreChartApi";
+import ManageTermView from "./MangeTermView";
 
 const AdminView: FC<{ reloadChoreCharts: () => void }> = ({
   reloadChoreCharts,
@@ -21,6 +22,7 @@ const AdminView: FC<{ reloadChoreCharts: () => void }> = ({
 
   const [manageTemplates, setManageTemplates] = useState(false);
   const [mangeOrder, setManageOrder] = useState(false);
+  const [manageTermInformation, setManageTermInformation] = useState(false);
 
   const loadAllUsers = () => {
     getAllUsers().then((data) => setUsers(data));
@@ -88,6 +90,29 @@ const AdminView: FC<{ reloadChoreCharts: () => void }> = ({
           </button>
           <ManageOrder setModalOpen={setManageOrder} />
         </Modal>
+        <Modal
+          isOpen={manageTermInformation}
+          style={{
+            ...customStyles,
+            content: {
+              ...customStyles.content,
+              height: "650px",
+            },
+          }}
+          onAfterOpen={() => {}}
+          onRequestClose={() => {}}
+          contentLabel="Example Modal"
+        >
+          <button
+            type="button"
+            className="close float-right"
+            onClick={() => setManageTermInformation(false)}
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <ManageTermView setModalOpen={setManageTermInformation} />
+        </Modal>
       </div>
 
       <h1 className="display-8 mb-3">Admin</h1>
@@ -150,6 +175,13 @@ const AdminView: FC<{ reloadChoreCharts: () => void }> = ({
         }}
       >
         recreate chart
+      </button>
+      <button
+        type="button"
+        className="btn ml-3 btn-primary"
+        onClick={() => setManageTermInformation(true)}
+      >
+        edit term info
       </button>
     </div>
   );

@@ -67,6 +67,19 @@ export const getChoreCharts = async (): Promise<choreChart[]> => {
       return data.data._embedded.choreCharts;
     });
 };
+
+export const getCurrentChoreChart = async (
+  week: string
+): Promise<choreChart> => {
+  const axios = require("axios").default;
+  return await axios
+    .get(
+      `http://localhost:8080/api/choreCharts/search/findByWeek?week=${week}&projection=withChoreChart`
+    )
+    .then((data: any) => {
+      return data.data;
+    });
+};
 export const getUserPreferences = async (): Promise<
   userChoreChartPreference[]
 > => {
@@ -121,7 +134,6 @@ export const viewPreviewChoreChart = async (
   return await axios
     .post("http://localhost:8080/api/preview-chore-chart", userChorePreferences)
     .then((data: any) => {
-      console.log(data);
       return data.data;
     });
 };
@@ -148,7 +160,7 @@ export const postToCreateChoreChart = async (): Promise<string> => {
   const axios = require("axios").default;
   return await axios
     .post("http://localhost:8080/api/admin/create-chore-chart")
-    .then((data: any) => {
+    .then(() => {
       return "OK";
     });
 };

@@ -80,7 +80,6 @@ const ChoreChartDisplay: FunctionComponent<{
                     <th scope="row">{templateChore.chore.name}</th>
                     {filteredChoreUnits?.map(
                       (choreChartUnit: choreChartUnit) => {
-                        console.log(choreChartUnit);
                         if (!choreChartUnit.user) {
                           return (
                             <td>

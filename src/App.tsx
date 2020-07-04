@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./bootstrap.css";
-import ChoreCharts from "./Components/ChoreCharts";
+import ChoreChartView from "./Components/ChoreChartView";
 import LoginScreen from "./Components/LoginScreen";
 import { loginData } from "./api/userApi";
 import axios from "axios";
@@ -64,7 +64,7 @@ const App = () => {
       <ToastProvider autoDismiss={true} autoDismissTimeout={5000}>
         <Header setAuth={setAuthOnLogin} />
         <div className={"container"}>
-          <ChoreCharts />
+          <ChoreChartView />
         </div>
       </ToastProvider>
     </div>
