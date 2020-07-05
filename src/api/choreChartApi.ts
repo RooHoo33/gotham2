@@ -42,6 +42,7 @@ export type choreChartUnit = {
   templateChore: templateChore;
   templateDay: templateDay;
   user: user;
+  week: string;
 };
 
 export type choreChart = {
@@ -57,6 +58,13 @@ export type userChoreChartPreference = {
   day: day;
   user?: user;
   rank: number;
+};
+
+export type userChoresNumberType = {
+  completed: number;
+  total: number;
+  greenTeam: boolean;
+  choreChartUnits: choreChartUnit[];
 };
 
 export const getChoreCharts = async (): Promise<choreChart[]> => {
@@ -162,5 +170,14 @@ export const postToCreateChoreChart = async (): Promise<string> => {
     .post("http://localhost:8080/api/admin/create-chore-chart")
     .then(() => {
       return "OK";
+    });
+};
+
+export const getNumberOfChores = async (): Promise<userChoresNumberType> => {
+  const axios = require("axios").default;
+  return await axios
+    .get("http://localhost:8080/api/number-of-chores")
+    .then((data: any) => {
+      return data.data;
     });
 };

@@ -137,19 +137,6 @@ const AdminView: FC<{ reloadChoreCharts: () => void }> = ({
           })}
         </tbody>
       </table>
-      <button
-        type="button"
-        className="btn btn-primary"
-        onClick={() => {
-          saveUsers(users).then(() => {
-            addToast("Users Saved", { appearance: "success" });
-
-            loadAllUsers();
-          });
-        }}
-      >
-        Save changes
-      </button>
 
       <button
         type="button"
@@ -164,7 +151,7 @@ const AdminView: FC<{ reloadChoreCharts: () => void }> = ({
         className="btn ml-3 btn-primary"
         onClick={() => setManageOrder(true)}
       >
-        manage order
+        manage chores
       </button>
 
       <button

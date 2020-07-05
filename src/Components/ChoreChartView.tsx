@@ -9,6 +9,7 @@ import React from "react";
 import CreatePreferencesView from "./CreatePreferencesView";
 import AdminView from "./admin/AdminView";
 import moment from "moment";
+import AboutYourStatus from "./AboutYourStatus";
 
 const ChoreChartView = () => {
   const [choreCharts, setChoreCharts] = useState<choreChart[] | undefined>([]);
@@ -50,6 +51,7 @@ const ChoreChartView = () => {
           />
         </div>
       )}
+      <AboutYourStatus />
 
       <AdminView reloadChoreCharts={loadData} />
       <CreatePreferencesView />

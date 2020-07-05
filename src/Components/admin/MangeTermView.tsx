@@ -7,6 +7,7 @@ import {
 import { customStyles } from "../../resources/ReactModalConfig";
 import Modal from "react-modal";
 import EditTermInfo from "./EditTermInfo";
+import { useToasts } from "react-toast-notifications";
 export type whoEditingType = {
   termInformationId: number;
   editing: boolean;
@@ -15,6 +16,7 @@ export type whoEditingType = {
 const ManageTermView: FC<{ setModalOpen: (open: boolean) => void }> = ({
   setModalOpen,
 }) => {
+  const { addToast } = useToasts();
   const [termInformations, setTerminformations] = useState<termInformation[]>(
     []
   );
@@ -32,7 +34,10 @@ const ManageTermView: FC<{ setModalOpen: (open: boolean) => void }> = ({
   };
 
   const setTermInfoAsActive = (termInfoId: number) => {
-    postTermInfoAsActive(termInfoId).then(() => loadTermInformations());
+    postTermInfoAsActive(termInfoId).then(() => {
+      loadTermInformations();
+      addToast("Active Term Updated", { appearance: "success" });
+    });
   };
 
   useEffect(() => {
