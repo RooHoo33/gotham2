@@ -42,12 +42,19 @@ spec:
   tls:
     - hosts:
         - chores.roohoo.dev
+        - api.chores.roohoo.dev
       secretName: chores-tls
   rules:
+    - host: api.chores.roohoo.dev
+      http:
+        paths:
+          - backend:
+              serviceName: batcave
+              servicePort: 8080
+
     - host: chores.roohoo.dev
       http:
         paths:
-          - path: /
-            backend:
+          - backend:
               serviceName: gotham
               servicePort: 443

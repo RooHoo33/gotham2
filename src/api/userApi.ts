@@ -1,3 +1,5 @@
+import { basePath } from "../config";
+
 export type loginFormType = {
   username: string;
   password: string;
@@ -24,7 +26,7 @@ export const createUser = async (
 ): Promise<boolean> => {
   const axios = require("axios").default;
   return await axios
-    .post("http://localhost:8080/create-user", createUser)
+    .post(`${basePath}/create-user`, createUser)
     .then((data: any) => {
       return true;
     })
@@ -47,7 +49,7 @@ export type userType = {
 export const getAllUsers = async (): Promise<userType[]> => {
   const axios = require("axios").default;
   return await axios
-    .get("http://localhost:8080/api/users?projection=withUser")
+    .get(`${basePath}/api/users?projection=withUser`)
     .then((data: any) => {
       return data.data._embedded.users;
     });
@@ -58,10 +60,7 @@ export const postSaveUser = async (user: userType): Promise<string> => {
   usersAndActive[user.id.toString()] = user.active;
   const axios = require("axios").default;
   return await axios
-    .post(
-      "http://localhost:8080/api/batch/users/update-actives",
-      usersAndActive
-    )
+    .post(`${basePath}/api/batch/users/update-actives`, usersAndActive)
     .then((data: any) => {
       return "ok";
     });
@@ -74,10 +73,7 @@ export const saveUsers = async (users: userType[]): Promise<string> => {
   });
   const axios = require("axios").default;
   return await axios
-    .post(
-      "http://localhost:8080/api/batch/users/update-actives",
-      usersAndActive
-    )
+    .post(`${basePath}/api/batch/users/update-actives`, usersAndActive)
     .then((data: any) => {
       return "ok";
     });
@@ -88,7 +84,7 @@ export const loginUser = async (
 ): Promise<loginData> => {
   const axios = require("axios").default;
   return await axios
-    .post("http://localhost:8080/rest/authenticate", loginInfo)
+    .post(`${basePath}/rest/authenticate`, loginInfo)
     .then((data: any) => {
       return { jwt: data.data.jwt, success: true };
     })

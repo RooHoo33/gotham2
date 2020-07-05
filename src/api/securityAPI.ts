@@ -1,5 +1,6 @@
 // @ts-ignore
 import * as jwt_decode from "jwt-decode";
+import { basePath } from "../config";
 
 export type jwtType = {
   exp: number;
@@ -54,7 +55,7 @@ export const refreshJWTToken = () => {
   let xhr = new XMLHttpRequest();
   let params = JSON.stringify({ jwt: getJWT().jwt });
 
-  xhr.open("POST", "http://localhost:8080/rest/authenticate/renew", false);
+  xhr.open("POST", `${basePath}/rest/authenticate/renew`, false);
 
   xhr.setRequestHeader("Content-type", "application/json");
   xhr.setRequestHeader("Authorization", "Bearer " + getJWT().jwt);

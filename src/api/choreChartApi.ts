@@ -1,3 +1,5 @@
+import { basePath } from "../config";
+
 export interface chore extends choreOrDayType {}
 
 export interface day extends choreOrDayType {}
@@ -70,7 +72,7 @@ export type userChoresNumberType = {
 export const getChoreCharts = async (): Promise<choreChart[]> => {
   const axios = require("axios").default;
   return await axios
-    .get("http://localhost:8080/api/choreCharts?projection=withChoreChart")
+    .get(`${basePath}/api/choreCharts?projection=withChoreChart`)
     .then((data: any) => {
       return data.data._embedded.choreCharts;
     });
@@ -82,7 +84,7 @@ export const getCurrentChoreChart = async (
   const axios = require("axios").default;
   return await axios
     .get(
-      `http://localhost:8080/api/choreCharts/search/findByWeek?week=${week}&projection=withChoreChart`
+      `${basePath}/api/choreCharts/search/findByWeek?week=${week}&projection=withChoreChart`
     )
     .then((data: any) => {
       return data.data;
@@ -94,7 +96,7 @@ export const getUserPreferences = async (): Promise<
   const axios = require("axios").default;
   return await axios
     .get(
-      `http://localhost:8080/api/userChorePreferences/search/findByUser?projection=withUserChorePreference`
+      `${basePath}/api/userChorePreferences/search/findByUser?projection=withUserChorePreference`
     )
     .then((data: any) => {
       return data.data;
@@ -104,7 +106,7 @@ export const getUserPreferences = async (): Promise<
 export const getTemplates = async (): Promise<template[]> => {
   const axios = require("axios").default;
   return await axios
-    .get("http://localhost:8080/api/templates?projection=withTemplate")
+    .get(`${basePath}/api/templates?projection=withTemplate`)
     .then((data: any) => {
       return data.data._embedded.templates;
     });
@@ -114,7 +116,7 @@ export const getActiveTemplate = async (): Promise<template> => {
   const axios = require("axios").default;
   return await axios
     .get(
-      "http://localhost:8080/api/templates/search/findByActive?active=true&projection=withTemplate"
+      `${basePath}/api/templates/search/findByActive?active=true&projection=withTemplate`
     )
     .then((data: any) => {
       return data.data;
@@ -126,10 +128,7 @@ export const postUserPreferences = async (
 ) => {
   const axios = require("axios").default;
   return await axios
-    .post(
-      "http://localhost:8080/api/batch/user-chore-preferences",
-      saveUserPreferences
-    )
+    .post(`${basePath}/api/batch/user-chore-preferences`, saveUserPreferences)
     .then((data: any) => {
       return data.data;
     });
@@ -140,7 +139,7 @@ export const viewPreviewChoreChart = async (
 ): Promise<choreChart> => {
   const axios = require("axios").default;
   return await axios
-    .post("http://localhost:8080/api/preview-chore-chart", userChorePreferences)
+    .post(`${basePath}/api/preview-chore-chart`, userChorePreferences)
     .then((data: any) => {
       return data.data;
     });
@@ -149,7 +148,7 @@ export const viewPreviewChoreChart = async (
 export const postDays = async (days: day[]): Promise<day[]> => {
   const axios = require("axios").default;
   return await axios
-    .post("http://localhost:8080/api/batch/days", days)
+    .post(`${basePath}/api/batch/days`, days)
     .then((data: any) => {
       return data.data;
     });
@@ -158,7 +157,7 @@ export const postDays = async (days: day[]): Promise<day[]> => {
 export const postChores = async (chores: chore[]): Promise<chore[]> => {
   const axios = require("axios").default;
   return await axios
-    .post("http://localhost:8080/api/batch/chores", chores)
+    .post(`${basePath}/api/batch/chores`, chores)
     .then((data: any) => {
       return data.data;
     });
@@ -167,7 +166,7 @@ export const postChores = async (chores: chore[]): Promise<chore[]> => {
 export const postToCreateChoreChart = async (): Promise<string> => {
   const axios = require("axios").default;
   return await axios
-    .post("http://localhost:8080/api/admin/create-chore-chart")
+    .post(`${basePath}/api/admin/create-chore-chart`)
     .then(() => {
       return "OK";
     });
@@ -176,7 +175,7 @@ export const postToCreateChoreChart = async (): Promise<string> => {
 export const getNumberOfChores = async (): Promise<userChoresNumberType> => {
   const axios = require("axios").default;
   return await axios
-    .get("http://localhost:8080/api/number-of-chores")
+    .get(`${basePath}/api/number-of-chores`)
     .then((data: any) => {
       return data.data;
     });
