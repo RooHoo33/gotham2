@@ -49,5 +49,5 @@ spec:
         paths:
           - path: /
             backend:
-              serviceName: batcave-db-service
+              serviceName: gotham
               servicePort: 443
