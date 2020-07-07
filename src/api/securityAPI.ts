@@ -1,6 +1,7 @@
 // @ts-ignore
 import * as jwt_decode from "jwt-decode";
 import { basePath } from "../config";
+import { termInformation } from "./adminApi";
 
 export type jwtType = {
   exp: number;
@@ -9,6 +10,10 @@ export type jwtType = {
   matComChairmen: boolean;
   email: string;
   jwt: string;
+};
+export type forgotPasswordPayloadType = {
+  token: string;
+  newPassword: string;
 };
 
 export const getJWT = (): jwtType => {
@@ -62,4 +67,31 @@ export const refreshJWTToken = () => {
 
   xhr.send(params);
   document.cookie = "jwttoken=" + JSON.parse(xhr.response).jwt + ";path=/";
+};
+
+export const submitPasswordReset = async (
+  id: number,
+  forgotPasswordPayload: forgotPasswordPayloadType
+): Promise<termInformation> => {
+  const axios = require("axios").default;
+  return await axios
+    .post(
+      `${basePath}/api/verify-forgot-password-token/${id}`,
+      forgotPasswordPayload
+    )
+    .then((data: any) => {
+      console.log(data);
+      return data.data;
+    });
+};
+export const resetPassword = async (
+  email: string
+): Promise<termInformation> => {
+  const axios = require("axios").default;
+  return await axios
+    .post(`${basePath}/api/forgot-password`, email)
+    .then((data: any) => {
+      console.log(data);
+      return data.data;
+    });
 };

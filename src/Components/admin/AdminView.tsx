@@ -122,7 +122,16 @@ const AdminView: FC<{ reloadChoreCharts: () => void }> = ({
             <th scope="col">kappa sigma</th>
             <th scope="col">First</th>
             <th scope="col">Last</th>
-            <th scope="col">active?</th>
+            <th
+              align={"center"}
+              className={"text-align-center mx-auto"}
+              scope={"col"}
+            >
+              green team?
+            </th>
+            <th align={"center"} scope="col">
+              active?
+            </th>
           </tr>
         </thead>
         <tbody>

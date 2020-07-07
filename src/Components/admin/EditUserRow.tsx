@@ -1,4 +1,8 @@
-import { postSaveUser, userType } from "../../api/userApi";
+import {
+  postSaveUserActive,
+  postSaveUserGreenTeam,
+  userType,
+} from "../../api/userApi";
 import React, { FC } from "react";
 
 const EditUserRow: FC<{
@@ -11,7 +15,21 @@ const EditUserRow: FC<{
       <th scope="row">{user.associateMemeber ? "" : user.kappaSigma}</th>
       <td>{user.firstName}</td>
       <td>{user.lastName}</td>
-      <td className={" align-content-center"}>
+      <td align={"center"} className={" align-content-center"}>
+        <input
+          className="form-check-input"
+          type="checkbox"
+          style={{
+            transform: "scale(1.25)",
+          }}
+          onChange={(event) => {
+            user.greenTeam = !user.greenTeam;
+            postSaveUserGreenTeam(user).then(() => refreshOnSave());
+          }}
+          checked={user.greenTeam}
+        />
+      </td>
+      <td align={"center"} className={" align-content-center"}>
         <input
           className="form-check-input"
           type="checkbox"
@@ -20,7 +38,7 @@ const EditUserRow: FC<{
           }}
           onChange={(event) => {
             user.active = !user.active;
-            postSaveUser(user).then(() => refreshOnSave());
+            postSaveUserActive(user).then(() => refreshOnSave());
           }}
           checked={user.active}
         />

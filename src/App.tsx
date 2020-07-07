@@ -11,8 +11,11 @@ import {
   jwtValide,
   refreshJWTToken,
 } from "./api/securityAPI";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { Header } from "./Components/Header";
 import { ToastProvider } from "react-toast-notifications";
+import NewPassword from "./Components/forgotPassword/NewPassword";
+import ForgotPasswordScreen from "./Components/forgotPassword/ForgotPasswordScreen";
 
 type authType = {
   jwt: jwtType;
@@ -55,18 +58,27 @@ const App = () => {
     }
   }, []);
 
-  if (!auth.authenticated) {
-    return <LoginScreen setAuth={setAuthOnLogin} />;
-  }
-
   return (
     <div>
-      <ToastProvider autoDismiss={true} autoDismissTimeout={5000}>
-        <Header setAuth={setAuthOnLogin} />
-        <div className={"container"}>
-          <ChoreChartView />
-        </div>
-      </ToastProvider>
+      <Router>
+        <ToastProvider autoDismiss={true} autoDismissTimeout={5000}>
+          <Header setAuth={setAuthOnLogin} loggedIn={auth.authenticated} />
+          <Switch>
+            <Route path={"/forgot-password-reset"} children={<NewPassword />} />
+            <Route path={"/forgot-password"}>
+              <ForgotPasswordScreen />
+            </Route>
+            <Route path="/">
+              {!auth.authenticated && <LoginScreen setAuth={setAuthOnLogin} />}
+              {auth.authenticated && (
+                <div className={"container"}>
+                  <ChoreChartView />
+                </div>
+              )}
+            </Route>
+          </Switch>
+        </ToastProvider>
+      </Router>
     </div>
   );
 };

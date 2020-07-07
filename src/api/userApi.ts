@@ -44,6 +44,7 @@ export type userType = {
   kappaSigma: number;
   associateMemeber: boolean;
   bigBig: number | null;
+  greenTeam: boolean;
 };
 
 export const getAllUsers = async (): Promise<userType[]> => {
@@ -55,12 +56,25 @@ export const getAllUsers = async (): Promise<userType[]> => {
     });
 };
 
-export const postSaveUser = async (user: userType): Promise<string> => {
+export const postSaveUserActive = async (user: userType): Promise<string> => {
   let usersAndActive: any = {};
   usersAndActive[user.id.toString()] = user.active;
   const axios = require("axios").default;
   return await axios
     .post(`${basePath}/api/batch/users/update-actives`, usersAndActive)
+    .then((data: any) => {
+      return "ok";
+    });
+};
+
+export const postSaveUserGreenTeam = async (
+  user: userType
+): Promise<string> => {
+  let usersAndActive: any = {};
+  usersAndActive[user.id.toString()] = user.greenTeam;
+  const axios = require("axios").default;
+  return await axios
+    .post(`${basePath}/api/batch/users/update-green-team`, usersAndActive)
     .then((data: any) => {
       return "ok";
     });
