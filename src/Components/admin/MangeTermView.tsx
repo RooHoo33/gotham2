@@ -1,7 +1,7 @@
 import React, { FC, useEffect, useState } from "react";
 import {
   getTermInformations,
-  postTermInfoAsActive,
+  postUpdateTermInfoActive,
   termInformation,
 } from "../../api/adminApi";
 import { customStyles } from "../../resources/ReactModalConfig";
@@ -34,7 +34,7 @@ const ManageTermView: FC<{ setModalOpen: (open: boolean) => void }> = ({
   };
 
   const setTermInfoAsActive = (termInfoId: number) => {
-    postTermInfoAsActive(termInfoId).then(() => {
+    postUpdateTermInfoActive(termInfoId).then(() => {
       loadTermInformations();
       addToast("Active Term Updated", { appearance: "success" });
     });

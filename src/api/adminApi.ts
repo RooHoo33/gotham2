@@ -28,12 +28,12 @@ export const postTermInformation = async (
     });
 };
 
-export const postTermInfoAsActive = async (
+export const postUpdateTermInfoActive = async (
   id: number
 ): Promise<termInformation[]> => {
   const axios = require("axios").default;
   return await axios
-    .post(`${basePath}/api/termInformations/set-as-active/${id}`)
+    .post(`${basePath}/api/termInformations/update-term-actice/${id}`)
     .then((data: any) => {
       return data.data;
     });
