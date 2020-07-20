@@ -92,7 +92,7 @@ const ChoreChartDisplay: FunctionComponent<{
                             <td
                               className={
                                 choreChartUnit.user.id === getJWT().id
-                                  ? "font-weight-bold"
+                                  ? "font-weight-bold text-info"
                                   : ""
                               }
                             >
@@ -106,7 +106,7 @@ const ChoreChartDisplay: FunctionComponent<{
                             <td
                               className={
                                 choreChartUnit.user.id === getJWT().id
-                                  ? "font-weight-bold"
+                                  ? "font-weight-bold text-info"
                                   : ""
                               }
                             >
