@@ -6,6 +6,7 @@ import {
   choreChartUnit,
   choreChart,
 } from "../api/choreChartApi";
+import { getJWT } from "../api/securityAPI";
 
 const ChoreChartDisplay: FunctionComponent<{
   choreChart: choreChart;
@@ -88,7 +89,13 @@ const ChoreChartDisplay: FunctionComponent<{
                           );
                         } else if (choreChartUnit.user.isAssociateMemeber) {
                           return (
-                            <td>
+                            <td
+                              className={
+                                choreChartUnit.user.id === getJWT().id
+                                  ? "font-weight-bold"
+                                  : ""
+                              }
+                            >
                               {choreChartUnit.user.firstName +
                                 " " +
                                 choreChartUnit.user.lastName}
@@ -96,7 +103,13 @@ const ChoreChartDisplay: FunctionComponent<{
                           );
                         } else {
                           return (
-                            <td>
+                            <td
+                              className={
+                                choreChartUnit.user.id === getJWT().id
+                                  ? "font-weight-bold"
+                                  : ""
+                              }
+                            >
                               {choreChartUnit.user.kappaSigma
                                 ? "KΣ " + choreChartUnit.user.kappaSigma
                                 : "No one"}

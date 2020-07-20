@@ -1,4 +1,3 @@
-import { choreChart } from "./choreChartApi";
 import { basePath } from "../config";
 
 export type termInformation = {
